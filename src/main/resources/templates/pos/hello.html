@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <!-- 1. Pull in <meta>, <title>, CSS links from the layout fragment -->
+    <th:block th:replace="~{fragments/layout :: head('Hello')}"></th:block>
+</head>
+<body class="bg-base-200 min-h-screen">
+
+<div class="drawer lg:drawer-open">
+    <input id="sidebar-drawer" type="checkbox" class="drawer-toggle"/>
+
+    <div class="drawer-content flex flex-col">
+
+        <!-- 2. Pull in the top navbar -->
+        <div th:replace="~{fragments/layout :: navbar}"></div>
+
+        <!-- Page content (offset for fixed navbar + sidebar) -->
+        <main id="mainContent" class="flex-1 pt-14 lg:ml-60 p-6 transition-all duration-200">
+
+            <!-- YOUR PAGE CONTENT STARTS HERE -->
+            <h1 class="text-2xl font-bold mb-4">Hello</h1>
+            <p class="text-base-content/60">This page uses the shared layout.</p>
+            <!-- YOUR PAGE CONTENT ENDS HERE -->
+
+        </main>
+    </div>
+</div>
+</body>
+</html>
