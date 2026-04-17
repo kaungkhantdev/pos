@@ -15,7 +15,7 @@ public class WebSecurityConfig {
     {
         http.authorizeHttpRequests((requests) -> requests
                 // Public routes - no authentication required
-                .requestMatchers("/", "/home").permitAll()
+                .requestMatchers("/").permitAll()
                                 .anyRequest()
                                 .authenticated()
                 )
