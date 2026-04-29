@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Product</title>
+</head>
+<body>
+
+<div layout:fragment="content" class="min-h-screen flex flex-col lg:h-screen">
+
+    <main class="bg-gray-100 flex-1 lg:overflow-hidden">
+        <div class="container mx-auto lg:h-full flex flex-col p-4 gap-4 lg:overflow-hidden">
+
+            <!-- Nav -->
+            <nav class="flex flex-wrap items-center justify-between shrink-0 gap-2">
+                <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+                <div class="relative w-full sm:w-auto shrink-0">
+                    <input type="text"
+                           placeholder="Search products or categories"
+                           class="input input-bordered input-sm h-10 w-full sm:w-72 pl-4 pr-4 rounded-full bg-gray-50 border-gray-200 focus:outline-none focus:border-orange-400 text-sm text-gray-500"/>
+                </div>
+            </nav>
+
+            <!-- Sub tabs -->
+            <div class="flex items-center gap-1 shrink-0 border-b border-gray-200 overflow-x-auto">
+                <button id="tab-products" onclick="switchTab('products')"
+                        class="flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-gray-900 relative">
+                <span id="tab-products-icon" class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center">
+                    <i class="hgi-stroke hgi-package text-orange-500 text-lg"></i>
+                </span>
+                    <span id="tab-products-label" class="text-xs font-bold text-gray-900 whitespace-nowrap">Products</span>
+                </button>
+                <button id="tab-categories" onclick="switchTab('categories')"
+                        class="flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative">
+                <span id="tab-categories-icon" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                    <i class="hgi-stroke hgi-grid-view text-gray-400 text-lg"></i>
+                </span>
+                    <span id="tab-categories-label" class="text-xs font-normal text-gray-400 whitespace-nowrap">Categories</span>
+                </button>
+            </div>
+
+            <!-- ===== PRODUCTS PANEL ===== -->
+            <div id="panel-products" class="flex-1 flex flex-col lg:overflow-hidden gap-4">
+
+                <!-- Toolbar -->
+                <div class="flex items-center justify-between shrink-0">
+                    <p class="text-sm text-gray-500"><span class="font-bold text-gray-900">9</span> products found</p>
+                    <button onclick="location.href='product-add.html'"
+                            class="btn btn-sm bg-orange-500 text-white border-0 hover:bg-orange-600 rounded-full px-5 gap-1.5">
+                        <i class="hgi-stroke hgi-plus-sign text-sm"></i> Add Product
+                    </button>
+                </div>
+
+                <!-- Product table -->
+                <div class="bg-white rounded-2xl overflow-hidden flex-1 min-h-0 flex flex-col">
+                    <div class="overflow-x-auto overflow-y-auto flex-1">
+                        <table class="table table-sm w-full">
+                            <thead class="sticky top-0 bg-white border-b border-gray-100">
+                            <tr class="text-xs text-gray-400 font-medium">
+                                <th class="py-3 px-4 font-medium">Product</th>
+                                <th class="py-3 px-4 font-medium">Category</th>
+                                <th class="py-3 px-4 font-medium">Price</th>
+                                <th class="py-3 px-4 font-medium">Stock</th>
+                                <th class="py-3 px-4 font-medium">Status</th>
+                                <th class="py-3 px-4 font-medium text-right">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Biscuit Mama"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Biscuit Mama with Susu</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-secondary text-xs">Dessert</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$6.00</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">21</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Available</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Krosang"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Krosang Thats It</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-info text-xs">Western</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$7.80</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">19</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Available</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1588165171080-c89acfa5ee83?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Strawberry"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Strawberry Picat</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-primary text-xs">Drinks</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$4.50</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">56</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Available</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Kids Meal"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Healthy Kids Meal</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-warning text-xs">Main Course</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$8.30</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">16</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Available</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Mangoo"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Mangoo Cereal Milk</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-primary text-xs">Drinks</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$9.50</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">18</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Available</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Smoothie"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Smoothie Brown Berry</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-primary text-xs">Drinks</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$9.50</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">18</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-error text-xs">Low Stock</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Cupcake"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Rainbow Cupcake</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-secondary text-xs">Dessert</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$9.50</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">11</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Available</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Mie"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Mie Gocengan Spicy</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-accent text-xs">Asian</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$9.50</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">8</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-error text-xs">Low Stock</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=80&h=80&fit=crop&q=80"
+                                             class="w-10 h-10 rounded-xl object-cover" alt="Gyoza"/>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Japanese Chicken Gyoza</p>
+                                            <p class="text-xs text-gray-400">Price per portion</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-accent text-xs">Asian</span></td>
+                                <td class="py-3 px-4 text-sm font-bold text-gray-900">$8.17</td>
+                                <td class="py-3 px-4 text-sm text-gray-600">34</td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Available</span></td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+
+                        <!-- Pagination -->
+                        <div class="flex items-center justify-between mt-6 p-4 border-t border-gray-200 shrink-0">
+                            <div class="text-xs text-gray-500">
+                                Showing <span class="font-semibold text-gray-900">1-6</span> of <span class="font-semibold text-gray-900">24</span> orders
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                    <i class="hgi-stroke hgi-arrow-left-double text-md"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline border-0 bg-orange-500 text-white hover:bg-orange-600 rounded-lg min-w-8 h-8">1</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">2</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">3</button>
+                                <span class="text-gray-400 px-1">...</span>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">5</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                    <i class="hgi-stroke hgi-arrow-right-double text-md"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== CATEGORIES PANEL ===== -->
+            <div id="panel-categories" class="hidden flex-1 flex flex-col overflow-hidden gap-4">
+
+                <!-- Toolbar -->
+                <div class="flex items-center justify-between shrink-0">
+                    <p class="text-sm text-gray-500"><span class="font-bold text-gray-900">6</span> categories</p>
+                    <button onclick="document.getElementById('modal-add-category').showModal()"
+                            class="btn btn-sm bg-orange-500 text-white border-0 hover:bg-orange-600 rounded-full px-5 gap-1.5">
+                        <i class="hgi-stroke hgi-plus-sign text-sm"></i> Add Category
+                    </button>
+                </div>
+
+                <!-- Category cards -->
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 overflow-y-auto flex-1 min-h-0 content-start">
+
+                    <div class="bg-white rounded-2xl p-4 flex flex-col gap-3 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                        <span class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center">
+                            <i class="hgi-stroke hgi-grid-view text-orange-500 text-xl"></i>
+                        </span>
+                            <div class="flex gap-1">
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                    <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                </button>
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                    <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900">All Menu</p>
+                            <p class="text-xs text-gray-400 mt-0.5">9 products</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 flex flex-col gap-3 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                        <span class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center">
+                            <i class="hgi-stroke hgi-steak text-yellow-500 text-xl"></i>
+                        </span>
+                            <div class="flex gap-1">
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                    <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                </button>
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                    <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900">Main Course</p>
+                            <p class="text-xs text-gray-400 mt-0.5">1 product</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 flex flex-col gap-3 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                        <span class="w-12 h-12 rounded-full bg-pink-100 flex items-center justify-center">
+                            <i class="hgi-stroke hgi-cake text-pink-500 text-xl"></i>
+                        </span>
+                            <div class="flex gap-1">
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                    <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                </button>
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                    <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900">Dessert</p>
+                            <p class="text-xs text-gray-400 mt-0.5">2 products</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 flex flex-col gap-3 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                        <span class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center">
+                            <i class="hgi-stroke hgi-coffee-01 text-blue-500 text-xl"></i>
+                        </span>
+                            <div class="flex gap-1">
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                    <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                </button>
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                    <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900">Drinks</p>
+                            <p class="text-xs text-gray-400 mt-0.5">3 products</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 flex flex-col gap-3 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                        <span class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center">
+                            <i class="hgi-stroke hgi-noodles text-green-500 text-xl"></i>
+                        </span>
+                            <div class="flex gap-1">
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                    <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                </button>
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                    <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900">Asian</p>
+                            <p class="text-xs text-gray-400 mt-0.5">2 products</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-4 flex flex-col gap-3 hover:shadow-md transition-shadow">
+                        <div class="flex items-center justify-between">
+                        <span class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center">
+                            <i class="hgi-stroke hgi-steak text-purple-500 text-xl"></i>
+                        </span>
+                            <div class="flex gap-1">
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                    <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                </button>
+                                <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                    <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div>
+                            <p class="font-bold text-gray-900">Western</p>
+                            <p class="text-xs text-gray-400 mt-0.5">1 product</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+<th:block layout:fragment="page-scripts">
+    <script th:src="@{/js/product.js}"></script>
+</th:block>
+</body>
+</html>

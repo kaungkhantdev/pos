@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+<nav th:fragment="navbar" class="flex items-center min-w-0">
+    <!-- Brand -->
+    <div class="flex items-center gap-2 shrink-0">
+        <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center">
+            <i class="hgi-stroke hgi-rounded hgi-home-12 text-orange-500 text-xl"></i>
+        </div>
+    </div>
+
+    <!-- Nav tabs -->
+    <div class="flex items-center gap-1 bg-white rounded-full px-1.5 py-1.5 overflow-x-auto">
+        <a th:href="@{/}" class="btn btn-sm rounded-full border-0 bg-transparent text-gray-500 hover:bg-gray-100 px-2 sm:px-4 nav-tab shrink-0">
+            <i class="hgi-stroke hgi-restaurant-01 text-sm"></i> <span class="hidden sm:inline">Menu</span>
+        </a>
+        <a th:href="@{/orders}" class="btn btn-sm rounded-full border-0 bg-transparent text-gray-500 hover:bg-gray-100 px-2 sm:px-4 nav-tab shrink-0">
+            <i class="hgi-stroke hgi-shopping-basket-01 text-sm"></i> <span class="hidden sm:inline">Orders</span>
+        </a>
+        <a th:href="@{/reports}" class="btn btn-sm rounded-full border-0 bg-transparent text-gray-500 hover:bg-gray-100 px-2 sm:px-4 nav-tab shrink-0">
+            <i class="hgi-stroke hgi-analytics-01 text-sm"></i> <span class="hidden sm:inline">Reports</span>
+        </a>
+        <a th:href="@{/products}" class="btn btn-sm rounded-full border-0 bg-transparent text-gray-500 hover:bg-gray-100 px-2 sm:px-4 nav-tab shrink-0">
+            <i class="hgi-stroke hgi-package text-sm"></i> <span class="hidden sm:inline">Products</span>
+        </a>
+        <a th:href="@{/users}" class="btn btn-sm rounded-full border-0 bg-transparent text-gray-500 hover:bg-gray-100 px-2 sm:px-4 nav-tab shrink-0">
+            <i class="hgi-stroke hgi-user-group text-sm"></i> <span class="hidden sm:inline">Users</span>
+        </a>
+    </div>
+    <div class="flex items-center gap-2 shrink-0">
+<!--            <span class="text-light" sec:authentication="name"></span>-->
+            <form th:action="@{/logout}" method="post" class="m-0">
+                <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+            </form>
+    </div>
+</nav>
+</body>
+</html>

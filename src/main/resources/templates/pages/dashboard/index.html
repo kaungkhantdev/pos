@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">   <!--  points to master layout -->
+<head>
+    <title>Dashboard</title>  <!-- becomes "Dashboard - My App" -->
+</head>
+<body>
+
+<div layout:fragment="content" class="min-h-screen flex flex-col lg:h-screen">
+    <main class="bg-gray-100 flex-1 lg:overflow-hidden">
+        <!-- ===== MAIN LAYOUT ===== -->
+        <div class="container mx-auto lg:h-full grid grid-cols-1 lg:grid-cols-[1fr_25rem] gap-4 p-4 lg:overflow-hidden">
+
+            <!-- ===== LEFT: PRODUCT AREA ===== -->
+            <div class="flex flex-col pe-0 lg:pe-4 gap-4 lg:min-h-0">
+
+                <!-- Explore Our Best Menu -->
+                <section class="flex-1 flex flex-col lg:min-h-0">
+
+                    <!-- ===== TOP NAVBAR ===== -->
+                    <nav class="pb-4 flex flex-wrap items-center justify-between shrink-0 z-20 gap-2">
+
+                        <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+                        <!-- Search -->
+                        <div class="relative w-full sm:w-auto shrink-0">
+                            <input type="text"
+                                   placeholder="Find food or beverages"
+                                   class="input input-bordered input-sm h-11 w-full sm:w-60 pl-4 pr-4 rounded-full bg-gray-50 border-gray-200 focus:outline-none focus:border-orange-400 text-sm text-gray-500"/>
+                        </div>
+                    </nav>
+
+                    <!-- Category filter tabs -->
+                    <div class="flex items-center mb-4 shrink-0 border-b border-gray-200">
+                        <!-- Scrollable category tabs -->
+                        <div class="flex items-center gap-1 overflow-x-auto flex-1">
+                            <button class="category-btn flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-gray-900 relative group"
+                                    data-cat="all" onclick="filterCat(this, 'all')">
+                            <span class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center cat-icon-bg">
+                                <i class="hgi-stroke hgi-grid-view text-orange-500 text-lg cat-icon"></i>
+                            </span>
+                                <span class="text-xs font-bold text-gray-900 cat-label whitespace-nowrap">All Menu</span>
+                            </button>
+                            <button class="category-btn flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative group"
+                                    data-cat="main" onclick="filterCat(this, 'main')">
+                            <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                                <i class="hgi-stroke hgi-steak text-gray-400 text-lg cat-icon"></i>
+                            </span>
+                                <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Main Course</span>
+                            </button>
+                            <button class="category-btn flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative group"
+                                    data-cat="dessert" onclick="filterCat(this, 'dessert')">
+                            <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                                <i class="hgi-stroke hgi-steak text-gray-400 text-lg cat-icon"></i>
+                            </span>
+                                <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Dessert</span>
+                            </button>
+                            <button class="category-btn flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative group"
+                                    data-cat="drinks" onclick="filterCat(this, 'drinks')">
+                            <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                                <i class="hgi-stroke hgi-steak text-gray-400 text-lg cat-icon"></i>
+                            </span>
+                                <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Drinks</span>
+                            </button>
+                            <button class="category-btn flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative group"
+                                    data-cat="asian" onclick="filterCat(this, 'asian')">
+                            <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                                <i class="hgi-stroke hgi-noodles text-gray-400 text-lg cat-icon"></i>
+                            </span>
+                                <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Asian</span>
+                            </button>
+                            <button class="category-btn flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative group"
+                                    data-cat="western" onclick="filterCat(this, 'western')">
+                            <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                                <i class="hgi-stroke hgi-steak text-gray-400 text-lg cat-icon"></i>
+                            </span>
+                                <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Western</span>
+                            </button>
+                        </div>
+
+                        <!-- Filter button pinned to the right, outside the scroll -->
+                        <div class="relative shrink-0" id="filterContainer">
+                            <button id="filterBtn" onclick="toggleFilter()"
+                                    class="flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 group">
+                            <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center transition-colors" id="filterIconWrap">
+                                <i class="hgi-stroke hgi-filter-horizontal text-gray-400 text-lg" id="filterIcon"></i>
+                            </span>
+                                <span class="text-xs font-normal text-gray-400 whitespace-nowrap">Filter</span>
+                            </button>
+
+                            <!-- Active filter badge -->
+                            <span id="filterBadge" class="hidden absolute top-1 right-3 w-2 h-2 rounded-full bg-orange-500"></span>
+
+                            <!-- Dropdown panel -->
+                            <div id="filterPanel"
+                                 class="hidden absolute right-0 top-full mt-1 w-64 bg-white rounded-2xl shadow-xl border border-gray-100 z-50 p-4">
+
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-bold text-gray-900">Filter & Sort</span>
+                                    <button onclick="resetFilters()" class="text-xs text-orange-500 hover:text-orange-600 font-medium">Reset all</button>
+                                </div>
+
+                                <!-- Sort By -->
+                                <div class="mb-4">
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Sort By</p>
+                                    <div class="grid grid-cols-2 gap-1.5" id="sortGroup">
+                                        <button onclick="setSort(this,'default')"  data-sort="default"  class="sort-btn text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-orange-500 text-white font-medium transition-all">Default</button>
+                                        <button onclick="setSort(this,'name')"     data-sort="name"     class="sort-btn text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 transition-all">Name A–Z</button>
+                                        <button onclick="setSort(this,'price-asc')" data-sort="price-asc" class="sort-btn text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 transition-all">Price ↑</button>
+                                        <button onclick="setSort(this,'price-desc')" data-sort="price-desc" class="sort-btn text-xs px-3 py-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 transition-all">Price ↓</button>
+                                    </div>
+                                </div>
+
+                                <!-- Price Range -->
+                                <div class="mb-4">
+                                    <div class="flex items-center justify-between mb-1.5">
+                                        <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Max Price</p>
+                                        <span class="text-xs font-bold text-orange-500" id="priceLabel">$20.00</span>
+                                    </div>
+                                    <input type="range" id="priceRange" min="1" max="20" step="0.5" value="20"
+                                           oninput="updatePrice(this.value)"
+                                           class="range range-xs w-full accent-orange-500"/>
+                                    <div class="flex justify-between text-xs text-gray-400 mt-0.5">
+                                        <span>$1</span><span>$20</span>
+                                    </div>
+                                </div>
+
+                                <!-- Availability -->
+                                <div class="mb-4">
+                                    <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-2">Availability</p>
+                                    <label class="flex items-center gap-2 cursor-pointer">
+                                        <input type="checkbox" id="inStockOnly" onchange="applyFilters()"
+                                               class="checkbox checkbox-xs border-gray-300 checked:border-orange-500 checked:bg-orange-500"/>
+                                        <span class="text-xs text-gray-700">In stock only (≥ 10)</span>
+                                    </label>
+                                </div>
+
+                                <button onclick="applyFilters(); toggleFilter()"
+                                        class="btn btn-sm bg-gray-900 text-white hover:bg-gray-700 border-0 w-full rounded-lg text-xs font-semibold">
+                                    Apply Filters
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Product grid -->
+                    <div class="flex flex-col flex-1 lg:overflow-y-auto lg:min-h-0">
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 content-start pb-2" id="productGrid">
+
+                            <!-- Product: Biscuit Mama with Susu -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="dessert">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=200&fit=crop&q=80"
+                                         alt="Biscuit Mama with Susu" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 21
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Biscuit Mama with Susu</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$6.00</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Biscuit Mama with Susu -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="dessert">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=400&h=200&fit=crop&q=80"
+                                         alt="Biscuit Mama with Susu" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 21
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Biscuit Mama with Susu</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$6.00</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Krosang Thats It -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="western">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=400&h=200&fit=crop&q=80"
+                                         alt="Krosang Thats It" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 19
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Krosang Thats It</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$7.80</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Strawberry Picat -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="drinks">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1588165171080-c89acfa5ee83?w=400&h=200&fit=crop&q=80"
+                                         alt="Strawberry Picat" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 56
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Strawberry Picat</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$4.50</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Healthy Kids Meal -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="main">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=400&h=200&fit=crop&q=80"
+                                         alt="Healthy Kids Meal" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 16
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Healthy Kids Meal</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$8.30</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Mangoo Cereal Milk -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="drinks">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?w=400&h=200&fit=crop&q=80"
+                                         alt="Mangoo Cereal Milk" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 18
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Mangoo Cereal Milk</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$9.50</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Smoothie Brown Berry -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="drinks">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=400&h=200&fit=crop&q=80"
+                                         alt="Smoothie Brown Berry" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 18
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Smoothie Brown Berry</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$9.50</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Rainbow Cupcake -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="dessert">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1486427944299-d1955d23e34d?w=400&h=200&fit=crop&q=80"
+                                         alt="Rainbow Cupcake" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 11
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Rainbow Cupcake</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$9.50</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Product: Mie Gocengan Spicy -->
+                            <div class="card bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer product-item rounded-2xl"
+                                 data-cat="asian">
+                                <figure class="relative h-36 overflow-hidden rounded-t-2xl bg-gray-100">
+                                    <img src="https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=400&h=200&fit=crop&q=80"
+                                         alt="Mie Gocengan Spicy" class="w-full h-full object-cover"/>
+                                    <span class="absolute bottom-2 left-2 badge badge-soft badge-primary">
+                                    Available: 8
+                                </span>
+                                </figure>
+                                <div class="card-body p-3">
+                                    <p class="font-semibold text-gray-900 text-sm leading-tight">Mie Gocengan Spicy</p>
+                                    <p class="text-xs text-gray-400 mt-0.5">Price per portion</p>
+                                    <div class="flex items-center justify-between mt-1">
+                                        <span class="font-bold text-gray-900 text-sm">$9.50</span>
+                                        <button class="btn btn-circle btn-sm bg-orange-500 border-0 text-white hover:bg-orange-600">
+                                            <i class="hgi-stroke hgi-shopping-basket-add-03 text-base"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Pagination -->
+                        <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 shrink-0">
+                            <div class="text-xs text-gray-500">
+                                Showing <span class="font-semibold text-gray-900">1-6</span> of <span class="font-semibold text-gray-900">24</span> orders
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                    <i class="hgi-stroke hgi-arrow-left-double text-md"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline border-0 bg-orange-500 text-white hover:bg-orange-600 rounded-lg min-w-8 h-8">1</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">2</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">3</button>
+                                <span class="text-gray-400 px-1">...</span>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">5</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                    <i class="hgi-stroke hgi-arrow-right-double text-md"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div><!-- end left -->
+
+            <!-- ===== RIGHT: ORDER PANEL ===== -->
+            <aside class="bg-white rounded-2xl flex flex-col lg:overflow-hidden">
+
+                <!-- Current Order -->
+                <div class="px-4 pt-3 pb-2 border-b border-gray-100 flex-1 overflow-y-auto min-h-0">
+                    <div class="flex items-center justify-between mb-2 shrink-0">
+                        <div>
+                            <h3 class="font-bold text-gray-900 text-sm">Order <span class="text-orange-500">#1042</span></h3>
+                            <span class="flex items-center gap-1 text-xs text-gray-400">
+                            <i class="hgi-stroke hgi-clock-01 text-xs"></i> 12:45 PM
+                        </span>
+                        </div>
+                        <button class="btn btn-xs btn-ghost text-xs text-gray-400 hover:text-red-500 hover:bg-red-50 border-0 gap-1 rounded-lg px-2">
+                            <i class="hgi-stroke hgi-delete-02 text-sm"></i> Clear
+                        </button>
+                    </div>
+                    <div class="border-t border-gray-100 mb-2"></div>
+
+                    <div class="space-y-2" id="orderList">
+
+                        <div class="flex items-center gap-2">
+                            <img src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=80&h=80&fit=crop&q=80"
+                                 alt="Gyoza" class="w-11 h-11 rounded-lg object-cover shrink-0"/>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs font-semibold text-gray-900 leading-tight truncate">Japanese Chicken Gyoza</p>
+                                <p class="text-xs font-bold text-orange-500 mt-0.5">$8.17 <span class="text-xs text-gray-400 font-normal">x2</span></p>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <button class="btn btn-xs btn-circle bg-gray-100 border-0 hover:bg-gray-200 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-minus-sign text-xs"></i>
+                                    </button>
+                                    <span class="text-xs font-bold w-4 text-center">2</span>
+                                    <button class="btn btn-xs btn-circle bg-gray-900 border-0 text-white hover:bg-gray-700 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-plus-sign text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-xs btn-ghost btn-circle shrink-0">
+                                <i class="hgi-stroke hgi-delete-02 text-gray-400 hover:text-red-500 text-sm"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <img src="https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?w=80&h=80&fit=crop&q=80"
+                                 alt="Avocado" class="w-11 h-11 rounded-lg object-cover shrink-0"/>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs font-semibold text-gray-900 leading-tight truncate">2pcs of Amazing Avocado</p>
+                                <p class="text-xs font-bold text-orange-500 mt-0.5">$6.80 <span class="text-xs text-gray-400 font-normal">x2</span></p>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <button class="btn btn-xs btn-circle bg-gray-100 border-0 hover:bg-gray-200 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-minus-sign text-xs"></i>
+                                    </button>
+                                    <span class="text-xs font-bold w-4 text-center">2</span>
+                                    <button class="btn btn-xs btn-circle bg-gray-900 border-0 text-white hover:bg-gray-700 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-plus-sign text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-xs btn-ghost btn-circle shrink-0">
+                                <i class="hgi-stroke hgi-delete-02 text-gray-400 hover:text-red-500 text-sm"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <img src="https://images.unsplash.com/photo-1490645935967-10de6ba17061?w=80&h=80&fit=crop&q=80"
+                                 alt="Kids Meal" class="w-11 h-11 rounded-lg object-cover shrink-0"/>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs font-semibold text-gray-900 leading-tight truncate">Healthy Kids Meal</p>
+                                <p class="text-xs font-bold text-orange-500 mt-0.5">$8.30 <span class="text-xs text-gray-400 font-normal">x6</span></p>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <button class="btn btn-xs btn-circle bg-gray-100 border-0 hover:bg-gray-200 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-minus-sign text-xs"></i>
+                                    </button>
+                                    <span class="text-xs font-bold w-4 text-center">6</span>
+                                    <button class="btn btn-xs btn-circle bg-gray-900 border-0 text-white hover:bg-gray-700 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-plus-sign text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-xs btn-ghost btn-circle shrink-0">
+                                <i class="hgi-stroke hgi-delete-02 text-gray-400 hover:text-red-500 text-sm"></i>
+                            </button>
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=80&h=80&fit=crop&q=80"
+                                 alt="Krosang" class="w-11 h-11 rounded-lg object-cover shrink-0"/>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-xs font-semibold text-gray-900 leading-tight truncate">Krosang Thats It</p>
+                                <p class="text-xs font-bold text-orange-500 mt-0.5">$7.80 <span class="text-xs text-gray-400 font-normal">x2</span></p>
+                                <div class="flex items-center gap-1.5 mt-1">
+                                    <button class="btn btn-xs btn-circle bg-gray-100 border-0 hover:bg-gray-200 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-minus-sign text-xs"></i>
+                                    </button>
+                                    <span class="text-xs font-bold w-4 text-center">2</span>
+                                    <button class="btn btn-xs btn-circle bg-gray-900 border-0 text-white hover:bg-gray-700 w-5 h-5 min-h-0">
+                                        <i class="hgi-stroke hgi-plus-sign text-xs"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <button class="btn btn-xs btn-ghost btn-circle shrink-0">
+                                <i class="hgi-stroke hgi-delete-02 text-gray-400 hover:text-red-500 text-sm"></i>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Payment Summary + Order Now -->
+                <div class="px-4 pt-3 pb-4 shrink-0">
+                    <h3 class="font-bold text-gray-900 text-sm mb-2">Payment Summary</h3>
+                    <div class="space-y-1.5 text-xs mb-3">
+                        <div class="flex justify-between text-gray-500">
+                            <span>Subtotal</span>
+                            <span class="font-medium text-gray-900">$129.80</span>
+                        </div>
+                        <div class="flex justify-between text-gray-500">
+                            <span>Discount</span>
+                            <span class="font-medium text-red-500">-$6.25</span>
+                        </div>
+                        <div class="flex justify-between text-gray-500">
+                            <span>Tax</span>
+                            <span class="font-medium text-gray-900">$8.00</span>
+                        </div>
+                        <div class="border-t border-gray-100 pt-1.5 mt-1 flex justify-between">
+                            <span class="font-bold text-gray-900 text-sm">Total</span>
+                            <span class="font-bold text-orange-500 text-sm">$121.80</span>
+                        </div>
+                    </div>
+                    <button class="btn bg-gray-900 text-white hover:bg-gray-700 border-0 w-full rounded-lg text-sm font-semibold h-10">
+                        Order Now
+                    </button>
+                </div>
+
+            </aside><!-- end right panel -->
+
+        </div><!-- end main layout -->
+    </main>
+</div>
+
+<!-- inject page-specific JS -->
+<th:block layout:fragment="page-scripts">
+    <script th:src="@{/js/dashboard.js}"></script>
+</th:block>
+
+</body>
+</html>

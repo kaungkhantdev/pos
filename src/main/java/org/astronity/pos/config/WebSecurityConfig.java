@@ -15,9 +15,9 @@ public class WebSecurityConfig {
     {
         http.authorizeHttpRequests((requests) -> requests
                 // Public routes - no authentication required
-                .requestMatchers("/").permitAll()
-                                .anyRequest()
-                                .authenticated()
+                .requestMatchers("/css/**", "/js/**", "/images/**", "/webjars/**").permitAll()
+                .anyRequest()
+                .authenticated()
                 )
                 .formLogin((form) -> form
                         .loginPage("/login")
