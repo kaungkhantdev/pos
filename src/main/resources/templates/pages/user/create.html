@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>User Create</title>
+</head>
+<body>
+<div layout:fragment="content" class="min-h-screen flex flex-col lg:h-screen">
+
+    <main class="bg-gray-100 flex-1 lg:overflow-hidden">
+        <div class="container mx-auto lg:h-full flex flex-col p-4 gap-4 lg:overflow-hidden">
+
+            <!-- Nav -->
+            <nav class="flex flex-wrap items-center justify-between shrink-0 gap-2">
+                <div th:replace="~{fragments/navbar :: navbar}"></div>
+            </nav>
+
+            <!-- Page header -->
+            <div class="flex items-center gap-3 shrink-0">
+                <a href="users.html" class="btn btn-sm btn-ghost btn-circle text-gray-500 hover:bg-gray-200">
+                    <i class="hgi-stroke hgi-arrow-left-01 text-lg"></i>
+                </a>
+                <div>
+                    <p class="text-xs text-gray-400">Users</p>
+                    <h1 class="text-lg font-bold text-gray-900 leading-tight">Add New User</h1>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 pb-4">
+
+                    <!-- Left: Main info -->
+                    <div class="lg:col-span-2 flex flex-col gap-4">
+
+                        <!-- Personal info -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-4">
+                            <h2 class="text-sm font-bold text-gray-900">Personal Information</h2>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Full Name <span class="text-red-400">*</span></label>
+                                    <input type="text" placeholder="e.g. Ahmad Karim"
+                                           class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10"/>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Phone</label>
+                                    <input type="tel" placeholder="+60 12-345 6789"
+                                           class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10"/>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1.5 block">Email Address <span class="text-red-400">*</span></label>
+                                <input type="email" placeholder="user@email.com"
+                                       class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10"/>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1.5 block">Address</label>
+                                <textarea rows="2" placeholder="Street address..."
+                                          class="textarea textarea-bordered w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm resize-none"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Security -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-4">
+                            <h2 class="text-sm font-bold text-gray-900">Security</h2>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Password <span class="text-red-400">*</span></label>
+                                    <div class="relative">
+                                        <input type="password" id="password" placeholder="••••••••"
+                                               class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10 pr-10"/>
+                                        <button type="button" onclick="togglePwd('password','eye1')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                            <i id="eye1" class="hgi-stroke hgi-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Confirm Password <span class="text-red-400">*</span></label>
+                                    <div class="relative">
+                                        <input type="password" id="confirm-password" placeholder="••••••••"
+                                               class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10 pr-10"/>
+                                        <button type="button" onclick="togglePwd('confirm-password','eye2')" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                            <i id="eye2" class="hgi-stroke hgi-eye text-sm"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400">Minimum 8 characters. Use a mix of letters, numbers, and symbols.</p>
+                        </div>
+
+                        <!-- Permissions -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-4">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-sm font-bold text-gray-900">Permissions</h2>
+                                <span class="text-xs text-gray-400">Auto-set by role · override below</span>
+                            </div>
+                            <div class="flex flex-col gap-3">
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">Manage Products</p>
+                                        <p class="text-xs text-gray-400">Add, edit, delete products</p>
+                                    </div>
+                                    <div class="relative inline-flex items-center">
+                                        <input type="checkbox" value="" class="sr-only peer" checked/>
+                                        <div class="w-9 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                                    </div>
+                                </label>
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">View Reports</p>
+                                        <p class="text-xs text-gray-400">Access sales analytics</p>
+                                    </div>
+                                    <div class="relative inline-flex items-center">
+                                        <input type="checkbox" value="" class="sr-only peer" checked/>
+                                        <div class="w-9 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                                    </div>
+                                </label>
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">Manage Users</p>
+                                        <p class="text-xs text-gray-400">Add and edit user accounts</p>
+                                    </div>
+                                    <div class="relative inline-flex items-center">
+                                        <input type="checkbox" value="" class="sr-only peer"/>
+                                        <div class="w-9 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                                    </div>
+                                </label>
+                                <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer">
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-700">Apply Discounts</p>
+                                        <p class="text-xs text-gray-400">Override pricing on orders</p>
+                                    </div>
+                                    <div class="relative inline-flex items-center">
+                                        <input type="checkbox" value="" class="sr-only peer"/>
+                                        <div class="w-9 h-5 bg-gray-200 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-orange-500"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Avatar, Role, Status, Actions -->
+                    <div class="flex flex-col gap-4">
+
+                        <!-- Avatar -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col items-center gap-4">
+                            <h2 class="text-sm font-bold text-gray-900 self-start">Profile Photo</h2>
+                            <div id="avatar-preview" class="w-24 h-24 rounded-full bg-orange-100 flex items-center justify-center">
+                                <span id="avatar-initials" class="text-2xl font-bold text-orange-400">?</span>
+                            </div>
+                            <div class="flex gap-2 w-full">
+                                <label class="btn btn-sm btn-outline border-gray-200 text-gray-500 hover:bg-gray-50 rounded-xl flex-1 gap-1.5 text-xs cursor-pointer">
+                                    <i class="hgi-stroke hgi-image-upload text-sm"></i> Upload
+                                    <input type="file" class="hidden" accept="image/*" onchange="previewAvatar(event)"/>
+                                </label>
+                                <button onclick="clearAvatar()" class="btn btn-sm btn-outline border-gray-200 text-gray-400 hover:bg-gray-50 rounded-xl px-3">
+                                    <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 text-center -mt-1">Or initials will be used automatically</p>
+                        </div>
+
+                        <!-- Role & Status -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-4">
+                            <h2 class="text-sm font-bold text-gray-900">Role & Status</h2>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1.5 block">Role <span class="text-red-400">*</span></label>
+                                <select class="select select-bordered select-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10">
+                                    <option value="" disabled selected>Select role</option>
+                                    <option>Admin</option>
+                                    <option>Manager</option>
+                                    <option>Cashier</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-2">
+                                <label class="text-xs font-medium text-gray-500 block">Status</label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-orange-400 bg-orange-50 cursor-pointer">
+                                    <input type="radio" name="status" value="active" checked class="radio radio-sm radio-warning"/>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-900">Active</p>
+                                        <p class="text-xs text-gray-400">Can log in and use the system</p>
+                                    </div>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-gray-200">
+                                    <input type="radio" name="status" value="inactive" class="radio radio-sm"/>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-900">Inactive</p>
+                                        <p class="text-xs text-gray-400">Account disabled</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex flex-col gap-2">
+                            <button class="btn bg-orange-500 text-white border-0 hover:bg-orange-600 rounded-full gap-2">
+                                <i class="hgi-stroke hgi-user-add-01 text-sm"></i> Add User
+                            </button>
+                            <a href="users.html" class="btn btn-outline border-gray-200 bg-white text-gray-500 hover:bg-gray-100 rounded-full">
+                                Cancel
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+
+<th:block layout:fragment="page-scripts">
+    <script th:src="@{/js/user.js}"></script>
+</th:block>
+</body>
+</html>

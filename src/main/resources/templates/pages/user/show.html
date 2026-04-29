@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>User Detail</title>
+</head>
+<body>
+<div layout:fragment="content" class="min-h-screen flex flex-col lg:h-screen">
+
+    <main class="bg-gray-100 flex-1 lg:overflow-hidden">
+        <div class="container mx-auto lg:h-full flex flex-col p-4 gap-4 lg:overflow-hidden">
+
+            <!-- Nav -->
+            <nav class="flex flex-wrap items-center justify-between shrink-0 gap-2">
+                <div th:replace="~{fragments/navbar :: navbar}"></div>
+            </nav>
+
+            <!-- Page header -->
+            <div class="flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-3">
+                    <a th:href="@{/users}" class="btn btn-sm btn-ghost btn-circle text-gray-500 hover:bg-gray-200">
+                        <i class="hgi-stroke hgi-arrow-left-01 text-lg"></i>
+                    </a>
+                    <div>
+                        <p class="text-xs text-gray-400">Users</p>
+                        <h1 class="text-lg font-bold text-gray-900 leading-tight">User Detail</h1>
+                    </div>
+                </div>
+                <a th:href="@{/users/1/edit}" class="btn btn-sm bg-orange-500 text-white border-0 hover:bg-orange-600 rounded-full gap-1.5 px-5">
+                    <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i> Edit User
+                </a>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 pb-4">
+
+                    <!-- Left: Detail -->
+                    <div class="lg:col-span-2 flex flex-col gap-4">
+
+                        <!-- Profile overview -->
+                        <div class="bg-white rounded-2xl p-5 flex gap-5 items-center">
+                            <div class="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
+                                <span class="text-2xl font-bold text-orange-500">AK</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-start justify-between gap-3">
+                                    <div>
+                                        <h2 class="text-xl font-bold text-gray-900">Ahmad Karim</h2>
+                                        <p class="text-xs text-gray-400 mt-0.5">ahmad.karim@email.com &middot; +60 12-345 6789</p>
+                                    </div>
+                                    <span class="badge badge-soft badge-success text-xs shrink-0">Active</span>
+                                </div>
+                                <div class="flex items-center gap-2 mt-3">
+                                    <span class="badge badge-soft badge-warning text-xs">Admin</span>
+                                    <span class="text-xs text-gray-400">Member since 10 Jan 2026</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats row -->
+                        <div class="grid grid-cols-4 gap-3">
+                            <div class="bg-white rounded-2xl p-4 flex flex-col gap-1">
+                                <p class="text-xs text-gray-400">Orders Today</p>
+                                <p class="text-xl font-bold text-gray-900">14</p>
+                            </div>
+                            <div class="bg-white rounded-2xl p-4 flex flex-col gap-1">
+                                <p class="text-xs text-gray-400">Total Orders</p>
+                                <p class="text-xl font-bold text-gray-900">342</p>
+                            </div>
+                            <div class="bg-white rounded-2xl p-4 flex flex-col gap-1">
+                                <p class="text-xs text-gray-400">Revenue Handled</p>
+                                <p class="text-xl font-bold text-gray-900">$8.4k</p>
+                            </div>
+                            <div class="bg-white rounded-2xl p-4 flex flex-col gap-1">
+                                <p class="text-xs text-gray-400">Last Login</p>
+                                <p class="text-sm font-bold text-gray-900">Today, 9:42 AM</p>
+                            </div>
+                        </div>
+
+                        <!-- Activity chart -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-4">
+                            <div class="flex items-center justify-between">
+                                <h2 class="text-sm font-bold text-gray-900">Activity Overview</h2>
+                                <select class="select select-bordered select-xs rounded-lg border-gray-200 focus:outline-none text-xs h-7">
+                                    <option>Last 7 days</option>
+                                    <option>Last 30 days</option>
+                                    <option>Last 3 months</option>
+                                </select>
+                            </div>
+                            <div class="flex items-end gap-2 h-24">
+                                <div class="flex flex-col items-center gap-1 flex-1">
+                                    <div class="w-full bg-orange-200 rounded-t-lg" style="height:55%"></div>
+                                    <span class="text-xs text-gray-400">Mon</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1 flex-1">
+                                    <div class="w-full bg-orange-300 rounded-t-lg" style="height:70%"></div>
+                                    <span class="text-xs text-gray-400">Tue</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1 flex-1">
+                                    <div class="w-full bg-orange-200 rounded-t-lg" style="height:45%"></div>
+                                    <span class="text-xs text-gray-400">Wed</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1 flex-1">
+                                    <div class="w-full bg-orange-500 rounded-t-lg" style="height:100%"></div>
+                                    <span class="text-xs text-gray-400">Thu</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1 flex-1">
+                                    <div class="w-full bg-orange-400 rounded-t-lg" style="height:80%"></div>
+                                    <span class="text-xs text-gray-400">Fri</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1 flex-1">
+                                    <div class="w-full bg-orange-300 rounded-t-lg" style="height:60%"></div>
+                                    <span class="text-xs text-gray-400">Sat</span>
+                                </div>
+                                <div class="flex flex-col items-center gap-1 flex-1">
+                                    <div class="w-full bg-orange-100 rounded-t-lg" style="height:30%"></div>
+                                    <span class="text-xs text-gray-400">Sun</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-4 pt-1 border-t border-gray-100">
+                                <div>
+                                    <p class="text-xs text-gray-400">Orders This Week</p>
+                                    <p class="text-sm font-bold text-gray-900">67 orders</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">Revenue</p>
+                                    <p class="text-sm font-bold text-gray-900">$1,204.50</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-400">Avg. Daily</p>
+                                    <p class="text-sm font-bold text-gray-900">9.6 / day</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent orders handled -->
+                        <div class="bg-white rounded-2xl overflow-hidden">
+                            <div class="flex items-center justify-between p-5 pb-3">
+                                <h2 class="text-sm font-bold text-gray-900">Recent Orders Handled</h2>
+                                <a href="orders.html" class="text-xs text-orange-500 hover:underline">View all</a>
+                            </div>
+                            <table class="table table-sm w-full">
+                                <thead class="bg-gray-50 border-y border-gray-100">
+                                <tr class="text-xs text-gray-400 font-medium">
+                                    <th class="py-2 px-5 font-medium">Order ID</th>
+                                    <th class="py-2 px-5 font-medium">Date</th>
+                                    <th class="py-2 px-5 font-medium">Items</th>
+                                    <th class="py-2 px-5 font-medium">Total</th>
+                                    <th class="py-2 px-5 font-medium">Status</th>
+                                </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-50">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-5 text-sm font-semibold text-orange-500">#ORD-1024</td>
+                                    <td class="py-3 px-5 text-xs text-gray-500">19 Apr 2026, 09:42</td>
+                                    <td class="py-3 px-5 text-sm text-gray-900">3 items</td>
+                                    <td class="py-3 px-5 text-sm font-bold text-gray-900">$22.50</td>
+                                    <td class="py-3 px-5"><span class="badge badge-soft badge-success text-xs">Completed</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-5 text-sm font-semibold text-orange-500">#ORD-1023</td>
+                                    <td class="py-3 px-5 text-xs text-gray-500">19 Apr 2026, 09:15</td>
+                                    <td class="py-3 px-5 text-sm text-gray-900">1 item</td>
+                                    <td class="py-3 px-5 text-sm font-bold text-gray-900">$6.00</td>
+                                    <td class="py-3 px-5"><span class="badge badge-soft badge-success text-xs">Completed</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-5 text-sm font-semibold text-orange-500">#ORD-1018</td>
+                                    <td class="py-3 px-5 text-xs text-gray-500">18 Apr 2026, 17:30</td>
+                                    <td class="py-3 px-5 text-sm text-gray-900">5 items</td>
+                                    <td class="py-3 px-5 text-sm font-bold text-gray-900">$41.80</td>
+                                    <td class="py-3 px-5"><span class="badge badge-soft badge-warning text-xs">Preparing</span></td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="py-3 px-5 text-sm font-semibold text-orange-500">#ORD-1012</td>
+                                    <td class="py-3 px-5 text-xs text-gray-500">18 Apr 2026, 14:05</td>
+                                    <td class="py-3 px-5 text-sm text-gray-900">2 items</td>
+                                    <td class="py-3 px-5 text-sm font-bold text-gray-900">$14.30</td>
+                                    <td class="py-3 px-5"><span class="badge badge-soft badge-success text-xs">Completed</span></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Sidebar -->
+                    <div class="flex flex-col gap-4">
+
+                        <!-- Account info -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-2">
+                            <h2 class="text-sm font-bold text-gray-900 mb-1">Account Info</h2>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span class="text-xs text-gray-400">Full Name</span>
+                                <span class="text-sm font-semibold text-gray-700">Ahmad Karim</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span class="text-xs text-gray-400">Email</span>
+                                <span class="text-xs text-gray-600">ahmad.karim@email.com</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span class="text-xs text-gray-400">Phone</span>
+                                <span class="text-xs text-gray-600">+60 12-345 6789</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span class="text-xs text-gray-400">Role</span>
+                                <span class="badge badge-soft badge-warning text-xs">Admin</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span class="text-xs text-gray-400">Status</span>
+                                <span class="badge badge-soft badge-success text-xs">Active</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2 border-b border-gray-50">
+                                <span class="text-xs text-gray-400">Joined</span>
+                                <span class="text-xs text-gray-600">10 Jan 2026</span>
+                            </div>
+                            <div class="flex justify-between items-center py-2">
+                                <span class="text-xs text-gray-400">Last Login</span>
+                                <span class="text-xs text-gray-600">Today, 9:42 AM</span>
+                            </div>
+                        </div>
+
+                        <!-- Permissions -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-3">
+                            <h2 class="text-sm font-bold text-gray-900">Permissions</h2>
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                    <i class="hgi-stroke hgi-checkmark-circle-01 text-green-500 text-xs"></i>
+                                </span>
+                                    <span class="text-xs text-gray-700">Manage Products</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                    <i class="hgi-stroke hgi-checkmark-circle-01 text-green-500 text-xs"></i>
+                                </span>
+                                    <span class="text-xs text-gray-700">View Reports</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                    <i class="hgi-stroke hgi-checkmark-circle-01 text-green-500 text-xs"></i>
+                                </span>
+                                    <span class="text-xs text-gray-700">Manage Users</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                <span class="w-5 h-5 rounded-full bg-gray-100 flex items-center justify-center shrink-0">
+                                    <i class="hgi-stroke hgi-cancel-01 text-gray-400 text-xs"></i>
+                                </span>
+                                    <span class="text-xs text-gray-400">Apply Discounts</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick actions -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-2">
+                            <h2 class="text-sm font-bold text-gray-900 mb-1">Quick Actions</h2>
+                            <button class="btn btn-sm btn-outline border-gray-200 text-gray-600 hover:bg-gray-50 rounded-xl justify-start gap-2 text-xs">
+                                <i class="hgi-stroke hgi-lock-01 text-sm text-orange-500"></i> Reset Password
+                            </button>
+                            <button class="btn btn-sm btn-outline border-gray-200 text-gray-600 hover:bg-gray-50 rounded-xl justify-start gap-2 text-xs">
+                                <i class="hgi-stroke hgi-cancel-circle text-sm text-yellow-500"></i> Deactivate Account
+                            </button>
+                            <button onclick="document.getElementById('modal-delete').showModal()"
+                                    class="btn btn-sm btn-outline border-red-100 text-red-500 hover:bg-red-50 hover:border-red-300 rounded-xl justify-start gap-2 text-xs">
+                                <i class="hgi-stroke hgi-delete-02 text-sm"></i> Delete User
+                            </button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Delete confirmation modal -->
+    <dialog id="modal-delete" class="modal">
+        <div class="modal-box rounded-2xl max-w-sm text-center">
+            <div class="w-14 h-14 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+                <i class="hgi-stroke hgi-delete-02 text-red-500 text-2xl"></i>
+            </div>
+            <h3 class="font-bold text-lg text-gray-900">Delete User?</h3>
+            <p class="text-sm text-gray-500 mt-2">Are you sure you want to delete <span class="font-semibold text-gray-900">Ahmad Karim</span>? This action cannot be undone.</p>
+            <div class="flex gap-3 mt-5">
+                <form method="dialog" class="flex-1">
+                    <button class="btn btn-sm w-full rounded-full border-gray-200 bg-white text-gray-500 hover:bg-gray-100">Cancel</button>
+                </form>
+                <a href="users.html" class="btn btn-sm flex-1 rounded-full bg-red-500 text-white border-0 hover:bg-red-600">
+                    <i class="hgi-stroke hgi-delete-02 text-sm"></i> Delete
+                </a>
+            </div>
+        </div>
+        <form method="dialog" class="modal-backdrop"><button>close</button></form>
+    </dialog>
+
+</div>
+</body>
+</html>

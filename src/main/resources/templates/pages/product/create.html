@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Product Create</title>
+</head>
+<body>
+<div layout:fragment="content" class="min-h-screen flex flex-col lg:h-screen">
+
+    <main class="bg-gray-100 flex-1 lg:overflow-hidden">
+        <div class="container mx-auto lg:h-full flex flex-col p-4 gap-4 lg:overflow-hidden">
+
+            <!-- Nav -->
+            <nav class="flex flex-wrap items-center justify-between shrink-0 gap-2">
+                <div th:replace="~{fragments/navbar :: navbar}"></div>
+            </nav>
+
+            <!-- Page header -->
+            <div class="flex items-center gap-3 shrink-0">
+                <a th:href="@{/products}" class="btn btn-sm btn-ghost btn-circle text-gray-500 hover:bg-gray-200">
+                    <i class="hgi-stroke hgi-arrow-left-01 text-lg"></i>
+                </a>
+                <div>
+                    <p class="text-xs text-gray-400">Products</p>
+                    <h1 class="text-lg font-bold text-gray-900 leading-tight">Add New Product</h1>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="flex-1 overflow-y-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 pb-4">
+
+                    <!-- Left: Main info -->
+                    <div class="lg:col-span-2 flex flex-col gap-4">
+
+                        <!-- Basic info card -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-4">
+                            <h2 class="text-sm font-bold text-gray-900">Basic Information</h2>
+
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1.5 block">Product Name <span class="text-red-400">*</span></label>
+                                <input type="text" placeholder="e.g. Rainbow Cupcake"
+                                       class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10"/>
+                            </div>
+
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1.5 block">Description</label>
+                                <textarea rows="3" placeholder="Write a short description about this product..."
+                                          class="textarea textarea-bordered w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm resize-none"></textarea>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Category <span class="text-red-400">*</span></label>
+                                    <select class="select select-bordered select-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10">
+                                        <option value="" disabled selected>Select category</option>
+                                        <option>Main Course</option>
+                                        <option>Dessert</option>
+                                        <option>Drinks</option>
+                                        <option>Asian</option>
+                                        <option>Western</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Unit Type</label>
+                                    <select class="select select-bordered select-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10">
+                                        <option>Per Portion</option>
+                                        <option>Per Piece</option>
+                                        <option>Per Glass</option>
+                                        <option>Per Kilogram</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Pricing & Stock card -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-4">
+                            <h2 class="text-sm font-bold text-gray-900">Pricing & Stock</h2>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Selling Price ($) <span class="text-red-400">*</span></label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                                        <input type="number" placeholder="0.00" step="0.01" min="0"
+                                               class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10 pl-7"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Cost Price ($)</label>
+                                    <div class="relative">
+                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">$</span>
+                                        <input type="number" placeholder="0.00" step="0.01" min="0"
+                                               class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10 pl-7"/>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Stock Quantity <span class="text-red-400">*</span></label>
+                                    <input type="number" placeholder="0" min="0"
+                                           class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10"/>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">Low Stock Alert</label>
+                                    <input type="number" placeholder="e.g. 5" min="0"
+                                           class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10"/>
+                                    <p class="text-xs text-gray-400 mt-1">Alert when stock falls below this number</p>
+                                </div>
+                                <div>
+                                    <label class="text-xs font-medium text-gray-500 mb-1.5 block">SKU / Barcode</label>
+                                    <input type="text" placeholder="e.g. PRD-0001"
+                                           class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm h-10"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Right: Image & Status -->
+                    <div class="flex flex-col gap-4">
+
+                        <!-- Image upload -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-3">
+                            <h2 class="text-sm font-bold text-gray-900">Product Image</h2>
+                            <label id="upload-area" class="w-full h-44 rounded-2xl border-2 border-dashed border-gray-200 bg-gray-50 flex flex-col items-center justify-center cursor-pointer hover:border-orange-400 hover:bg-orange-50 transition-colors gap-2 overflow-hidden relative">
+                                <div id="upload-placeholder" class="flex flex-col items-center gap-2">
+                                <span class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <i class="hgi-stroke hgi-image-upload text-gray-400 text-2xl"></i>
+                                </span>
+                                    <span class="text-xs text-gray-400 text-center">Click to upload<br/>PNG, JPG up to 5MB</span>
+                                </div>
+                                <img id="preview-img" class="hidden absolute inset-0 w-full h-full object-cover rounded-2xl"/>
+                                <input type="file" id="img-input" class="hidden" accept="image/*" onchange="previewImage(event)"/>
+                            </label>
+                            <button onclick="clearImage()" id="clear-img-btn" class="hidden btn btn-sm btn-outline border-gray-200 rounded-xl text-gray-500 text-xs gap-1.5">
+                                <i class="hgi-stroke hgi-delete-02 text-sm"></i> Remove Image
+                            </button>
+                        </div>
+
+                        <!-- Status -->
+                        <div class="bg-white rounded-2xl p-5 flex flex-col gap-3">
+                            <h2 class="text-sm font-bold text-gray-900">Status</h2>
+                            <div class="flex flex-col gap-2">
+                                <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-orange-400 bg-orange-50 cursor-pointer">
+                                    <input type="radio" name="status" value="available" checked class="radio radio-sm radio-warning"/>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-900">Available</p>
+                                        <p class="text-xs text-gray-400">Visible and orderable</p>
+                                    </div>
+                                </label>
+                                <label class="flex items-center gap-3 p-3 rounded-xl border-2 border-gray-100 cursor-pointer hover:border-gray-200">
+                                    <input type="radio" name="status" value="unavailable" class="radio radio-sm"/>
+                                    <div>
+                                        <p class="text-sm font-semibold text-gray-900">Unavailable</p>
+                                        <p class="text-xs text-gray-400">Hidden from menu</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div class="flex flex-col gap-2">
+                            <button class="btn bg-orange-500 text-white border-0 hover:bg-orange-600 rounded-full gap-2">
+                                <i class="hgi-stroke hgi-plus-sign text-sm"></i> Add Product
+                            </button>
+                            <a href="products.html" class="btn btn-outline border-gray-200 bg-white text-gray-500 hover:bg-gray-100 rounded-full">
+                                Cancel
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+</div>
+<th:block layout:fragment="page-scripts">
+    <script th:src="@{/js/product.js}"></script>
+</th:block>
+</body>
+</html>

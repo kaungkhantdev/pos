@@ -18,3 +18,41 @@ function switchTab(tab) {
     document.getElementById('tab-categories-icon').querySelector('i').className = `hgi-stroke hgi-grid-view text-lg ${!isProducts ? 'text-orange-500' : 'text-gray-400'}`;
     document.getElementById('tab-categories-label').className = `text-xs whitespace-nowrap ${!isProducts ? 'font-bold text-gray-900' : 'font-normal text-gray-400'}`;
 }
+
+// Product Add and Edit JS
+function previewImage(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        document.getElementById('preview-img').src = ev.target.result;
+        document.getElementById('preview-img').classList.remove('hidden');
+        document.getElementById('upload-placeholder').classList.add('hidden');
+        document.getElementById('clear-img-btn').classList.remove('hidden');
+    };
+    reader.readAsDataURL(file);
+}
+
+function clearImage() {
+    document.getElementById('img-input').value = '';
+    document.getElementById('preview-img').src = '';
+    document.getElementById('preview-img').classList.add('hidden');
+    document.getElementById('upload-placeholder').classList.remove('hidden');
+    document.getElementById('clear-img-btn').classList.add('hidden');
+}
+
+// Radio styling
+document.querySelectorAll('input[name="status"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+        document.querySelectorAll('input[name="status"]').forEach(r => {
+            const label = r.closest('label');
+            if (r.checked) {
+                label.classList.add('border-orange-400', 'bg-orange-50');
+                label.classList.remove('border-gray-100');
+            } else {
+                label.classList.remove('border-orange-400', 'bg-orange-50');
+                label.classList.add('border-gray-100');
+            }
+        });
+    });
+});

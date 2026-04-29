@@ -12,4 +12,22 @@ public class UserController {
     {
         return "pages/user/list";
     }
+
+    @GetMapping("/{id}")
+    public String show()
+    {
+        return "pages/user/show";
+    }
+
+    @GetMapping("/new")
+    public String create()
+    {
+        return "pages/user/create";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String edit()
+    {
+        return "pages/user/edit";
+    }
 }
