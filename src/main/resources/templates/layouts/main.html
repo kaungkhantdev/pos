@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title layout:title-pattern="$CONTENT_TITLE - $LAYOUT_TITLE">POS</title>
+
+    <!-- Flowbite -->
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Hugeicons -->
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+    <!-- Base CSS -->
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+
+    <!-- Page-specific head content injected here -->
+    <th:block layout:fragment="head-scripts"></th:block>
+</head>
+<body>
+
+<!-- Navbar fragment -->
+<div layout:fragment="content">
+    <!-- page content goes here -->
+</div>
+<!--<div class="container-fluid">-->
+<!--    <div class="row">-->
+
+<!--        &lt;!&ndash; Sidebar fragment &ndash;&gt;-->
+<!--&lt;!&ndash;        <div th:replace="~{fragments/sidebar :: sidebar}"></div>&ndash;&gt;-->
+
+<!--        &lt;!&ndash; ✅ Main content slot — pages fill this &ndash;&gt;-->
+<!--        <main class="col-md-9 ms-sm-auto px-4">-->
+<!--            <div layout:fragment="content">-->
+<!--                &lt;!&ndash; page content goes here &ndash;&gt;-->
+<!--            </div>-->
+<!--        </main>-->
+
+<!--    </div>-->
+<!--</div>-->
+
+<!-- Footer fragment -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- Base JS -->
+<script th:src="@{/js/navbar.js}"></script>
+
+<!-- Page-specific scripts injected here -->
+<th:block layout:fragment="page-scripts"></th:block>
+
+</body>
+</html>

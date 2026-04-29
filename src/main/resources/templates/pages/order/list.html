@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Order</title>
+</head>
+<body>
+<div layout:fragment="content" class="min-h-screen flex flex-col lg:h-screen">
+    <main class="bg-gray-100 flex-1 lg:overflow-hidden">
+        <div class="container mx-auto lg:h-full flex flex-col p-4 gap-4 lg:overflow-hidden">
+
+            <section class="flex-1 flex flex-col lg:min-h-0">
+
+                <!-- Orders Header -->
+                <nav class="pb-4 flex flex-wrap items-center justify-between shrink-0 z-20 gap-2">
+                    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+                    <div class="relative w-full sm:w-auto shrink-0">
+                        <input type="text"
+                               placeholder="Search by order ID or customer"
+                               class="input input-bordered input-sm h-10 w-full sm:w-72 pl-4 pr-4 rounded-full bg-gray-50 border-gray-200 focus:outline-none focus:border-orange-400 text-sm text-gray-500"/>
+                    </div>
+                </nav>
+
+                <!-- Order status filters -->
+                <div class="flex items-center gap-1 mb-4 shrink-0 border-b border-gray-200 overflow-x-auto">
+                    <button class="order-filter flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-gray-900 relative" data-filter="all">
+                    <span class="w-10 h-10 rounded-full bg-orange-100 flex items-center justify-center cat-icon-bg">
+                        <i class="hgi-stroke hgi-check-list text-orange-500 text-lg cat-icon"></i>
+                    </span>
+                        <span class="text-xs font-bold text-gray-900 cat-label whitespace-nowrap">All</span>
+                    </button>
+                    <button class="order-filter flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative" data-filter="pending">
+                    <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                        <i class="hgi-stroke hgi-clock-01 text-gray-400 text-lg cat-icon"></i>
+                    </span>
+                        <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Pending</span>
+                    </button>
+                    <button class="order-filter flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative" data-filter="inprogress">
+                    <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                        <i class="hgi-stroke hgi-fire text-gray-400 text-lg cat-icon"></i>
+                    </span>
+                        <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">In Progress</span>
+                    </button>
+                    <button class="order-filter flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative" data-filter="completed">
+                    <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                        <i class="hgi-stroke hgi-checkmark-circle-01 text-gray-400 text-lg cat-icon"></i>
+                    </span>
+                        <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Completed</span>
+                    </button>
+                    <button class="order-filter flex flex-col items-center gap-1.5 px-4 pb-3 pt-1 border-b-2 border-transparent relative" data-filter="cancelled">
+                    <span class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center cat-icon-bg">
+                        <i class="hgi-stroke hgi-cancel-circle text-gray-400 text-lg cat-icon"></i>
+                    </span>
+                        <span class="text-xs font-normal text-gray-400 cat-label whitespace-nowrap">Cancelled</span>
+                    </button>
+                </div>
+
+                <!-- Orders grid -->
+                <div class="flex-1 lg:overflow-y-auto lg:min-h-0 flex flex-col">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 auto-rows-max">
+
+                        <!-- Order 1 — completed -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item" data-status="completed">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-900 text-sm">#1042</span>
+                                <span class="badge badge-xs badge-success gap-1">
+                                <i class="hgi-stroke hgi-check-circle-01 text-xs"></i> Completed
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-500">4 items</span>
+                                <span class="font-bold text-orange-500 text-sm">$121.80</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> John Doe
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-table-01 text-xs"></i> Table 5
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 12:45 PM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Order 1 — completed -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item" data-status="completed">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-900 text-sm">#1042</span>
+                                <span class="badge badge-xs badge-success gap-1">
+                                <i class="hgi-stroke hgi-check-circle-01 text-xs"></i> Completed
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-500">4 items</span>
+                                <span class="font-bold text-orange-500 text-sm">$121.80</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> John Doe
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-table-01 text-xs"></i> Table 5
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 12:45 PM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Order 1 — completed -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item" data-status="completed">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-900 text-sm">#1042</span>
+                                <span class="badge badge-xs badge-success gap-1">
+                                <i class="hgi-stroke hgi-check-circle-01 text-xs"></i> Completed
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-500">4 items</span>
+                                <span class="font-bold text-orange-500 text-sm">$121.80</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> John Doe
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-table-01 text-xs"></i> Table 5
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 12:45 PM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Order 2 — pending -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item" data-status="pending">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-900 text-sm">#1043</span>
+                                <span class="badge badge-xs badge-warning gap-1">
+                                <i class="hgi-stroke hgi-clock-01 text-xs"></i> Pending
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-500">3 items</span>
+                                <span class="font-bold text-orange-500 text-sm">$87.50</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> Jane Smith
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-table-01 text-xs"></i> Table 8
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 01:15 PM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Order 3 — in progress -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item" data-status="inprogress">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-900 text-sm">#1044</span>
+                                <span class="badge badge-xs badge-info gap-1">
+                                <i class="hgi-stroke hgi-fire text-xs"></i> In Progress
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-500">2 items</span>
+                                <span class="font-bold text-orange-500 text-sm">$34.60</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> Emily Chen
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-shopping-bag-01 text-xs"></i> Takeaway
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 01:30 PM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Order 4 — cancelled -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item opacity-60" data-status="cancelled">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-500 text-sm line-through">#1040</span>
+                                <span class="badge badge-xs badge-error gap-1">
+                                <i class="hgi-stroke hgi-cancel-circle text-xs"></i> Cancelled
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-400">5 items</span>
+                                <span class="font-bold text-gray-400 text-sm">$156.25</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> Sarah Lee
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-delivery-box-in text-xs"></i> Delivery
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 10:00 AM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Order 5 — pending -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item" data-status="pending">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-900 text-sm">#1039</span>
+                                <span class="badge badge-xs badge-warning gap-1">
+                                <i class="hgi-stroke hgi-clock-01 text-xs"></i> Pending
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-500">3 items</span>
+                                <span class="font-bold text-orange-500 text-sm">$92.15</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> Alex Brown
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-table-01 text-xs"></i> Table 3
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 09:30 AM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                        <!-- Order 6 — in progress -->
+                        <div class="bg-white rounded-2xl p-3 border border-gray-50 hover:border-orange-300 hover:shadow-sm cursor-pointer transition group order-item" data-status="inprogress">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="font-bold text-gray-900 text-sm">#1038</span>
+                                <span class="badge badge-xs badge-info gap-1">
+                                <i class="hgi-stroke hgi-fire text-xs"></i> In Progress
+                            </span>
+                            </div>
+                            <div class="border-t border-gray-100 mb-2"></div>
+                            <div class="flex items-center justify-between mb-1.5">
+                                <span class="text-xs text-gray-500">6 items</span>
+                                <span class="font-bold text-orange-500 text-sm">$203.40</span>
+                            </div>
+                            <div class="flex items-center gap-1.5 text-xs text-gray-400 mb-2">
+                                <i class="hgi-stroke hgi-user-02 text-xs"></i> David Park
+                                <span class="text-gray-200">·</span>
+                                <i class="hgi-stroke hgi-delivery-box-in text-xs"></i> Delivery
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Apr 18 · 09:00 AM</p>
+                            <div class="flex gap-1.5 opacity-0 group-hover:opacity-100 transition">
+                                <button class="btn btn-xs border-0 bg-blue-50 text-blue-600 hover:bg-blue-100 flex-1 rounded-lg">Details</button>
+                                <button class="btn btn-xs border-0 bg-gray-100 text-gray-600 hover:bg-gray-200 flex-1 rounded-lg">Print</button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200 shrink-0">
+                        <div class="text-xs text-gray-500">
+                            Showing <span class="font-semibold text-gray-900">1-6</span> of <span class="font-semibold text-gray-900">24</span> orders
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                <i class="hgi-stroke hgi-arrow-left-double text-md"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline border-0 bg-orange-500 text-white hover:bg-orange-600 rounded-lg min-w-8 h-8">1</button>
+                            <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">2</button>
+                            <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">3</button>
+                            <span class="text-gray-400 px-1">...</span>
+                            <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">5</button>
+                            <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                <i class="hgi-stroke hgi-arrow-right-double text-md"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+        </div>
+    </main>
+</div>
+<th:block layout:fragment="page-scripts">
+    <script th:src="@{/js/order.js}"></script>
+</th:block>
+</body>
+</html>

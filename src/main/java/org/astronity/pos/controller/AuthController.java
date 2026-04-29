@@ -9,6 +9,6 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login(Model model) {
-        return "auth/login";
+        return "pages/auth/login";
     }
 }

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/auth}">
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <div layout:fragment="content" class="h-screen flex bg-gray-100">
+
+        <!-- Left: Branding panel -->
+        <div class="hidden lg:flex flex-col justify-between w-1/2 bg-gray-900 p-12 relative overflow-hidden">
+            <!-- Background food image overlay -->
+            <div class="absolute inset-0">
+                <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=800&h=1000&fit=crop&q=80"
+                     alt="" class="w-full h-full object-cover opacity-20"/>
+            </div>
+            <!-- Gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-b from-gray-900/80 via-gray-900/60 to-gray-900/90"></div>
+
+            <!-- Content -->
+            <div class="relative z-10">
+                <!-- Brand -->
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
+                        <i class="hgi-stroke hgi-home-12 text-white text-xl"></i>
+                    </div>
+                    <span class="text-white font-bold text-xl">Astronity POS</span>
+                </div>
+            </div>
+
+            <div class="relative z-10">
+                <h1 class="text-white text-4xl font-bold leading-tight mb-4">
+                    Manage your restaurant<br/>
+                    <span class="text-orange-500">smarter & faster.</span>
+                </h1>
+                <p class="text-gray-400 text-base leading-relaxed">
+                    Track orders, manage inventory, and process payments — all from one place.
+                </p>
+            </div>
+
+            <!-- Stats row -->
+            <div class="relative z-10 flex gap-8">
+                <div>
+                    <p class="text-white font-bold text-2xl">2.4k+</p>
+                    <p class="text-gray-400 text-sm">Orders today</p>
+                </div>
+                <div>
+                    <p class="text-white font-bold text-2xl">98%</p>
+                    <p class="text-gray-400 text-sm">Uptime</p>
+                </div>
+                <div>
+                    <p class="text-white font-bold text-2xl">$12k</p>
+                    <p class="text-gray-400 text-sm">Revenue today</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Login form -->
+        <div class="flex-1 flex items-center justify-center p-8">
+            <div class="w-full max-w-md">
+
+                <!-- Mobile brand (hidden on lg) -->
+                <div class="flex items-center gap-3 mb-8 lg:hidden">
+                    <div class="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center">
+                        <i class="hgi-stroke hgi-home-12 text-white text-xl"></i>
+                    </div>
+                    <span class="text-gray-900 font-bold text-xl">Astronity POS</span>
+                </div>
+
+                <div class="bg-white rounded-2xl p-8 shadow-sm">
+                    <h2 class="text-gray-900 font-bold text-2xl mb-1">Welcome back</h2>
+                    <p class="text-gray-400 text-sm mb-8">Sign in to your account to continue</p>
+
+                    <div th:if="${param.error}" class="mb-4 p-4 bg-red-50 rounded-lg">
+                        <p class="text-red-600 text-sm">Invalid username or password</p>
+                    </div>
+
+                    <div th:if="${param.logout}" class="mb-4 p-4 bg-green-50 rounded-lg">
+                        <p class="text-green-600 text-sm">You have been logged out</p>
+                    </div>
+
+                    <form th:action="@{/login}" method="post" class="space-y-5">
+
+                        <!-- Username -->
+                        <div class="space-y-1.5">
+                            <label for="username" class="text-sm font-medium text-gray-700">Username</label>
+                            <div class="relative">
+                                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <i class="hgi-stroke hgi-user-add-01 text-base"></i>
+                                    </span>
+                                <input type="text"
+                                       id="username" name="username"
+                                       required
+                                       placeholder="Enter your username"
+                                       class="input input-bordered w-full pl-10 pr-4 rounded-lg bg-gray-50 border-gray-200 focus:outline-none focus:border-orange-400 text-sm text-gray-700 h-11"/>
+                            </div>
+                        </div>
+
+                        <!-- Password -->
+                        <div class="space-y-1.5">
+                            <label for="password" class="text-sm font-medium text-gray-700">Password</label>
+                            <div class="relative">
+                                    <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400">
+                                        <i class="hgi-stroke hgi-lock-key text-base"></i>
+                                    </span>
+                                <input id="password"
+                                       name="password"
+                                       type="password"
+                                       placeholder="Enter your password"
+                                       class="input input-bordered w-full pl-10 pr-11 rounded-lg bg-gray-50 border-gray-200 focus:outline-none focus:border-orange-400 text-sm text-gray-700 h-11"/>
+                                <button type="button" onclick="togglePassword()"
+                                        class="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
+                                    <i id="eyeIcon" class="hgi-stroke hgi-view text-base"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Remember me & Forgot password -->
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center gap-2 cursor-pointer">
+                                <input type="checkbox" class="checkbox checkbox-sm border-gray-300 checked:bg-orange-500 checked:border-orange-500"/>
+                                <span class="text-sm text-gray-600">Remember me</span>
+                            </label>
+                            <a href="#" class="text-sm text-orange-500 hover:text-orange-600 font-medium">Forgot password?</a>
+                        </div>
+
+                        <!-- Submit -->
+                        <button type="submit"
+                                class="btn bg-orange-500 hover:bg-orange-600 text-white border-0 w-full rounded-lg h-11 text-sm font-semibold mt-2">
+                            Sign In
+                        </button>
+
+                    </form>
+                </div>
+
+                <p class="text-center text-xs text-gray-400 mt-6">
+                    &copy; 2026 Astronity POS. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <th:block layout:fragment="page-scripts">
+        <script th:src="@{/js/login.js}"></script>
+    </th:block>
+</body>
+</html>

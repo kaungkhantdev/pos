@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/main}">
+<head>
+    <title>Report</title>
+</head>
+<body>
+<div layout:fragment="content" class="min-h-screen flex flex-col lg:h-screen">
+
+    <main class="bg-gray-100 flex-1 lg:overflow-hidden">
+        <div class="container mx-auto lg:h-full grid grid-cols-1 lg:grid-cols-[1fr_22rem] gap-4 p-4 lg:overflow-hidden">
+
+            <!-- ===== LEFT: USER LIST ===== -->
+            <div class="flex flex-col gap-4 lg:overflow-hidden">
+
+                <!-- Nav -->
+                <nav class="flex flex-wrap items-center justify-between shrink-0 gap-2">
+                    <div th:replace="~{fragments/navbar :: navbar}"></div>
+
+                    <div class="relative w-full sm:w-auto shrink-0">
+                        <input type="text"
+                               placeholder="Search users"
+                               class="input input-bordered input-sm h-10 w-full sm:w-64 pl-4 pr-4 rounded-full bg-gray-50 border-gray-200 focus:outline-none focus:border-orange-400 text-sm text-gray-500"/>
+                    </div>
+                </nav>
+
+                <!-- Toolbar -->
+                <div class="flex items-center justify-between shrink-0">
+                    <p class="text-sm text-gray-500"><span class="font-bold text-gray-900">5</span> users</p>
+                    <button onclick="location.href='user-add.html'"
+                            class="btn btn-sm bg-orange-500 text-white border-0 hover:bg-orange-600 rounded-full px-5 gap-1.5">
+                        <i class="hgi-stroke hgi-user-add-01 text-sm"></i> Add User
+                    </button>
+                </div>
+
+                <!-- User table -->
+                <div class="bg-white rounded-2xl overflow-hidden flex-1 min-h-0 flex flex-col">
+                    <div class="overflow-x-auto overflow-y-auto flex-1">
+                        <table class="table table-sm w-full">
+                            <thead class="sticky top-0 bg-white border-b border-gray-100">
+                            <tr class="text-xs text-gray-400 font-medium">
+                                <th class="py-3 px-4 font-medium">User</th>
+                                <th class="py-3 px-4 font-medium">Role</th>
+                                <th class="py-3 px-4 font-medium">Status</th>
+                                <th class="py-3 px-4 font-medium">Last Login</th>
+                                <th class="py-3 px-4 font-medium text-right">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-50">
+
+                            <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="selectUser(this)">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-orange-100 flex items-center justify-center shrink-0">
+                                            <span class="text-sm font-bold text-orange-500">AK</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Ahmad Karim</p>
+                                            <p class="text-xs text-gray-400">ahmad.karim@email.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-warning text-xs">Admin</span></td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Active</span></td>
+                                <td class="py-3 px-4 text-xs text-gray-400">Today, 9:42 AM</td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="selectUser(this)">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
+                                            <span class="text-sm font-bold text-blue-500">SL</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Sarah Lim</p>
+                                            <p class="text-xs text-gray-400">sarah.lim@email.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-info text-xs">Cashier</span></td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Active</span></td>
+                                <td class="py-3 px-4 text-xs text-gray-400">Today, 8:15 AM</td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="selectUser(this)">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-green-100 flex items-center justify-center shrink-0">
+                                            <span class="text-sm font-bold text-green-500">BT</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Budi Tan</p>
+                                            <p class="text-xs text-gray-400">budi.tan@email.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-info text-xs">Cashier</span></td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Active</span></td>
+                                <td class="py-3 px-4 text-xs text-gray-400">Yesterday, 6:00 PM</td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="selectUser(this)">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+                                            <span class="text-sm font-bold text-purple-500">NR</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Nina Reza</p>
+                                            <p class="text-xs text-gray-400">nina.reza@email.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-secondary text-xs">Manager</span></td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-error text-xs">Inactive</span></td>
+                                <td class="py-3 px-4 text-xs text-gray-400">Apr 15, 2:30 PM</td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            <tr class="hover:bg-gray-50 transition-colors cursor-pointer" onclick="selectUser(this)">
+                                <td class="py-3 px-4">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-9 h-9 rounded-full bg-red-100 flex items-center justify-center shrink-0">
+                                            <span class="text-sm font-bold text-red-500">DW</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-sm font-semibold text-gray-900">Dani Wijaya</p>
+                                            <p class="text-xs text-gray-400">dani.wijaya@email.com</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-info text-xs">Cashier</span></td>
+                                <td class="py-3 px-4"><span class="badge badge-soft badge-success text-xs">Active</span></td>
+                                <td class="py-3 px-4 text-xs text-gray-400">Today, 7:55 AM</td>
+                                <td class="py-3 px-4 text-right">
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-orange-500">
+                                        <i class="hgi-stroke hgi-pencil-edit-01 text-sm"></i>
+                                    </button>
+                                    <button class="btn btn-xs btn-ghost text-gray-400 hover:text-red-500">
+                                        <i class="hgi-stroke hgi-delete-02 text-sm"></i>
+                                    </button>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <!-- Pagination -->
+                        <div class="flex items-center justify-between mt-6 p-4 border-t border-gray-200 shrink-0">
+                            <div class="text-xs text-gray-500">
+                                Showing <span class="font-semibold text-gray-900">1-6</span> of <span class="font-semibold text-gray-900">24</span> orders
+                            </div>
+                            <div class="flex items-center gap-1">
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                    <i class="hgi-stroke hgi-arrow-left-double text-md"></i>
+                                </button>
+                                <button class="btn btn-sm btn-outline border-0 bg-orange-500 text-white hover:bg-orange-600 rounded-lg min-w-8 h-8">1</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">2</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">3</button>
+                                <span class="text-gray-400 px-1">...</span>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg min-w-8 h-8">5</button>
+                                <button class="btn btn-sm btn-outline border-0 bg-gray-50 text-gray-600 hover:bg-gray-100 rounded-lg px-3">
+                                    <i class="hgi-stroke hgi-arrow-right-double text-md"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== RIGHT: USER SETTINGS PANEL ===== -->
+            <aside class="bg-white rounded-2xl flex flex-col lg:overflow-hidden">
+
+                <!-- Profile header -->
+                <div class="px-5 pt-5 pb-4 border-b border-gray-100 shrink-0">
+                    <div class="flex flex-col items-center gap-3">
+                        <div class="relative">
+                            <div class="w-20 h-20 rounded-full bg-orange-100 flex items-center justify-center">
+                                <span class="text-2xl font-bold text-orange-500">AK</span>
+                            </div>
+                            <button class="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
+                                <i class="hgi-stroke hgi-pencil-edit-01 text-white text-xs"></i>
+                            </button>
+                        </div>
+                        <div class="text-center">
+                            <p class="font-bold text-gray-900">Ahmad Karim</p>
+                            <p class="text-xs text-gray-400">ahmad.karim@email.com</p>
+                            <span class="badge badge-soft badge-warning text-xs mt-1">Admin</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings form -->
+                <div class="flex-1 overflow-y-auto px-5 py-4 flex flex-col gap-4">
+
+                    <div>
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Personal Info</p>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Full Name</label>
+                                <input type="text" value="Ahmad Karim"
+                                       class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm"/>
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Email</label>
+                                <input type="email" value="ahmad.karim@email.com"
+                                       class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm"/>
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Phone</label>
+                                <input type="tel" placeholder="+60 12-345 6789"
+                                       class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Role & Access</p>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Role</label>
+                                <select class="select select-bordered select-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm">
+                                    <option selected>Admin</option>
+                                    <option>Manager</option>
+                                    <option>Cashier</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Status</label>
+                                <select class="select select-bordered select-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm">
+                                    <option selected>Active</option>
+                                    <option>Inactive</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Security</p>
+                        <div class="flex flex-col gap-3">
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">New Password</label>
+                                <input type="password" placeholder="Enter new password"
+                                       class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm"/>
+                            </div>
+                            <div>
+                                <label class="text-xs font-medium text-gray-500 mb-1 block">Confirm Password</label>
+                                <input type="password" placeholder="Confirm new password"
+                                       class="input input-bordered input-sm w-full rounded-xl border-gray-200 focus:border-orange-400 focus:outline-none text-sm"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-4">
+                        <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Permissions</p>
+                        <div class="flex flex-col gap-2">
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700">Manage Products</p>
+                                    <p class="text-xs text-gray-400">Add, edit, delete products</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-sm toggle-warning" checked/>
+                            </label>
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700">View Reports</p>
+                                    <p class="text-xs text-gray-400">Access sales analytics</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-sm toggle-warning" checked/>
+                            </label>
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700">Manage Users</p>
+                                    <p class="text-xs text-gray-400">Add and edit user accounts</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-sm toggle-warning" checked/>
+                            </label>
+                            <label class="flex items-center justify-between">
+                                <div>
+                                    <p class="text-sm text-gray-700">Apply Discounts</p>
+                                    <p class="text-xs text-gray-400">Override pricing on orders</p>
+                                </div>
+                                <input type="checkbox" class="toggle toggle-sm toggle-warning"/>
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Save button -->
+                <div class="px-5 py-4 border-t border-gray-100 shrink-0">
+                    <button class="btn bg-gray-900 text-white hover:bg-gray-700 border-0 w-full rounded-xl text-sm font-semibold h-10">
+                        Save Changes
+                    </button>
+                </div>
+
+            </aside>
+
+        </div>
+    </main>
+
+</div>
+<th:block layout:fragment="page-scripts">
+    <script th:src="@{/js/user.js}"></script>
+</th:block>
+</body>
+</html>
