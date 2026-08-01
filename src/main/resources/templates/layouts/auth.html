@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:fragment="authLayout(content, scripts, links)">
+    <head th:replace="~{fragments/head :: head('Auth', ${links})}"></head>
+    <body class="min-h-screen bg-gray-100">
+
+        <!-- Page Content -->
+        <th:block th:replace="${content}"></th:block>
+
+        <!-- Page Specific JS -->
+        <th:block th:replace="${scripts}"></th:block>
+
+    </body>
+</html>

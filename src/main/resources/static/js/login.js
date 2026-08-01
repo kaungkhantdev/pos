@@ -1,11 +1,14 @@
 function togglePassword() {
-    const input = document.getElementById('password');
-    const icon = document.getElementById('eyeIcon');
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.className = 'hgi-stroke hgi-view-off text-base';
+    const passwordInput = document.getElementById('password');
+    const toggleIcon = document.getElementById('toggleIcon');
+
+    if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('hgi-view');
+        toggleIcon.classList.add('hgi-view-off-slash');
     } else {
-        input.type = 'password';
-        icon.className = 'hgi-stroke hgi-view text-base';
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('hgi-view-off-slash');
+        toggleIcon.classList.add('hgi-view');
     }
 }

@@ -1,0 +1,25 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title, links)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="'Astronity POS - ' + ${title}">
+        Astronity POS
+    </title>
+    <!-- DaisyUI Version 5-->
+    <link th:href="@{/css/daisyui.css}" rel="stylesheet" type="text/css" />
+    <!-- Tailwind CSS Version 3.4.17 -->
+    <script th:src="@{/js/tailwindcss.js}"></script>
+    <!-- Hugeicons -->
+    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
+    <!-- Exo font -->
+    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+    <!-- Tailwind Browser (for DaisyUI) -->
+    <script th:src="@{/js/tailwind-daisyui.js}"></script>
+    <!-- Theme + custom styles -->
+    <link rel="stylesheet" th:href="@{/css/app.css}" />
+    <!--    Dynamic links -->
+    <th:block th:replace="${links}"></th:block>
+
+    <script defer th:src="@{/js/app.js}"></script>
+</head>
+</html>
