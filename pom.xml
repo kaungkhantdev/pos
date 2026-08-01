@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>org.astronity</groupId>
-    <artifactId>pos</artifactId>
+    <artifactId>todo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>pos</name>
-    <description>pos</description>
+    <name>todo</name>
+    <description>todo</description>
     <url/>
     <licenses>
         <license/>

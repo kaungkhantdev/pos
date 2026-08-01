@@ -1,274 +1,171 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Astronity POS - Login</title>
-    <!-- DaisyUI -->
-    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Hugeicons -->
-    <link rel="stylesheet" href="https://cdn.hugeicons.com/font/hgi-stroke-rounded.css" />
-    <!-- Exo font -->
-    <link href="https://fonts.googleapis.com/css2?family=Exo:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
-    <style>
-        body { font-family: 'Exo', sans-serif; }
-        button, input, textarea, select, .btn { font-family: inherit; }
-    </style>
-    <!-- Tailwind Browser (for DaisyUI) -->
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-    <script>
-        tailwind.config = {
-            theme: { extend: { colors: { primary: { DEFAULT: '#e63946', dark: '#c3303b', light: '#f06a76' } } } },
-            daisyui: { themes: ["light"] }
-        }
-    </script>
-</head>
-<body class="min-h-screen bg-gray-100">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/auth :: authLayout(~{:: #content}, ~{:: #scripts}, ~{:: #links} ?: ~{})}">
 
-<div class="min-h-screen flex">
+<body>
 
-    <!-- ===== LEFT SIDE - BRANDING ===== -->
-    <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden"
-         style="background: linear-gradient(135deg, #e63946 0%, #c3303b 100%);">
-        <!-- Background Pattern -->
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-20 left-20 w-40 h-40 border-4 border-white rounded-full"></div>
-            <div class="absolute top-40 right-20 w-60 h-60 border-4 border-white rounded-full"></div>
-            <div class="absolute bottom-20 left-40 w-32 h-32 border-4 border-white rounded-full"></div>
-            <div class="absolute bottom-40 right-40 w-24 h-24 border-4 border-white rounded-full"></div>
-        </div>
+    <main id="content" class="min-h-screen flex">
 
-        <!-- Content -->
-        <div class="relative z-10 flex flex-col justify-center px-16 text-white">
-            <!-- Logo -->
-            <div class="mb-12">
-                <div class="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6">
-                    <svg width="36" height="36" viewBox="0 0 48 48" fill="none" class="shrink-0">
-                        <ellipse cx="24" cy="13" rx="6.5" ry="11" fill="#f06a76"/>
-                        <ellipse cx="24" cy="13" rx="6.5" ry="11" fill="#e63946" transform="rotate(60 24 24)"/>
-                        <ellipse cx="24" cy="13" rx="6.5" ry="11" fill="#f06a76" transform="rotate(120 24 24)"/>
-                        <ellipse cx="24" cy="13" rx="6.5" ry="11" fill="#e63946" transform="rotate(180 24 24)"/>
-                        <ellipse cx="24" cy="13" rx="6.5" ry="11" fill="#f06a76" transform="rotate(240 24 24)"/>
-                        <ellipse cx="24" cy="13" rx="6.5" ry="11" fill="#e63946" transform="rotate(300 24 24)"/>
-                        <circle cx="24" cy="24" r="4.5" fill="#c3303b"/>
-                    </svg>
-                </div>
-                <h1 class="text-4xl font-bold mb-2">Astronity POS</h1>
-                <p class="text-lg text-white/80">Point of Sale System</p>
-            </div>
+        <!-- ===== RIGHT SIDE - LOGIN FORM ===== -->
+        <div class="flex-1 flex items-center justify-center p-6 sm:p-8">
+            <div class="w-full max-w-md">
 
-            <!-- Features -->
-            <div class="flex flex-col gap-6">
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-                        <i class="hgi-stroke hgi-restaurant-01 text-2xl"></i>
+                <!-- Mobile Logo -->
+                <div class="lg:hidden text-center mb-8">
+                    <div class="w-16 h-16 bg-[#e63946] rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                            <circle cx="7" cy="7" r="2.5" fill="white"/>
+                            <circle cx="17" cy="7" r="2.5" fill="white"/>
+                            <circle cx="7" cy="17" r="2.5" fill="white"/>
+                            <circle cx="17" cy="17" r="2.5" fill="white"/>
+                        </svg>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-lg">Easy Order Management</h3>
-                        <p class="text-sm text-white/70">Manage orders efficiently with intuitive interface</p>
-                    </div>
+                    <h1 class="text-2xl font-bold text-gray-900">Astronity POS</h1>
                 </div>
 
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-                        <i class="hgi-stroke hgi-analytics-01 text-2xl"></i>
+                <!-- Login Card -->
+                <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
+
+                    <!-- Header -->
+                    <div class="text-center mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
+                        <p class="text-gray-500">Sign in to continue to your dashboard</p>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-lg">Real-time Analytics</h3>
-                        <p class="text-sm text-white/70">Track sales and performance in real-time</p>
+
+                    <!-- Error Message -->
+                    <div th:if="${param.error}" class="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center shrink-0">
+                            <i class="hgi-stroke hgi-alert-02 text-red-500 text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-red-800">Login Failed</p>
+                            <p class="text-xs text-red-600">Invalid email or password. Please try again.</p>
+                        </div>
                     </div>
-                </div>
 
-                <div class="flex items-start gap-4">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center shrink-0">
-                        <i class="hgi-stroke hgi-security-check text-2xl"></i>
+                    <!-- Logout Message -->
+                    <div th:if="${param.logout}" class="mb-6 p-4 bg-green-50 border border-green-100 rounded-xl flex items-center gap-3">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
+                            <i class="hgi-stroke hgi-checkmark-circle-02 text-green-500 text-lg"></i>
+                        </div>
+                        <div>
+                            <p class="text-sm font-medium text-green-800">Logged Out</p>
+                            <p class="text-xs text-green-600">You have been successfully logged out.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="font-semibold text-lg">Secure &amp; Reliable</h3>
-                        <p class="text-sm text-white/70">Enterprise-grade security for your business</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- ===== RIGHT SIDE - LOGIN FORM ===== -->
-    <div class="flex-1 flex items-center justify-center p-6 sm:p-8">
-        <div class="w-full max-w-md">
+                    <!-- Login Form -->
+                    <form th:action="@{/login}" method="post" class="space-y-5">
 
-            <!-- Mobile Logo -->
-            <div class="lg:hidden text-center mb-8">
-                <div class="w-16 h-16 bg-[#e63946] rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                        <circle cx="7" cy="7" r="2.5" fill="white"/>
-                        <circle cx="17" cy="7" r="2.5" fill="white"/>
-                        <circle cx="7" cy="17" r="2.5" fill="white"/>
-                        <circle cx="17" cy="17" r="2.5" fill="white"/>
-                    </svg>
-                </div>
-                <h1 class="text-2xl font-bold text-gray-900">Astronity POS</h1>
-            </div>
-
-            <!-- Login Card -->
-            <div class="bg-white rounded-3xl shadow-sm border border-gray-100 p-8">
-
-                <!-- Header -->
-                <div class="text-center mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-                    <p class="text-gray-500">Sign in to continue to your dashboard</p>
-                </div>
-
-                <!-- Error Message -->
-                <div th:if="${param.error}" class="mb-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-center gap-3">
-                    <div class="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center shrink-0">
-                        <i class="hgi-stroke hgi-alert-02 text-red-500 text-lg"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-red-800">Login Failed</p>
-                        <p class="text-xs text-red-600">Invalid email or password. Please try again.</p>
-                    </div>
-                </div>
-
-                <!-- Logout Message -->
-                <div th:if="${param.logout}" class="mb-6 p-4 bg-green-50 border border-green-100 rounded-xl flex items-center gap-3">
-                    <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center shrink-0">
-                        <i class="hgi-stroke hgi-checkmark-circle-02 text-green-500 text-lg"></i>
-                    </div>
-                    <div>
-                        <p class="text-sm font-medium text-green-800">Logged Out</p>
-                        <p class="text-xs text-green-600">You have been successfully logged out.</p>
-                    </div>
-                </div>
-
-                <!-- Login Form -->
-                <form th:action="@{/login}" method="post" class="space-y-5">
-
-                    <!-- Email Field -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                        <div class="relative">
+                        <!-- Email Field -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <div class="relative">
                             <span class="absolute left-0 top-0 h-12 w-11 flex items-center justify-center text-gray-400 pointer-events-none">
                                 <i class="hgi-stroke hgi-user text-xl leading-none"></i>
                             </span>
-                            <input type="text"
-                                   name="email"
-                                   required
-                                   autocomplete="email"
-                                   placeholder="Enter your email"
-                                   class="w-full h-12 pl-11 pr-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
+                                <input type="text"
+                                       name="email"
+                                       required
+                                       autocomplete="email"
+                                       placeholder="Enter your email"
+                                       class="w-full h-12 pl-11 pr-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
+                            </div>
                         </div>
-                    </div>
 
-                    <!-- Password Field -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                        <div class="relative">
+                        <!-- Password Field -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <div class="relative">
                             <span class="absolute left-0 top-0 h-12 w-11 flex items-center justify-center text-gray-400 pointer-events-none">
                                 <i class="hgi-stroke hgi-lock-password text-xl leading-none"></i>
                             </span>
-                            <input type="password"
-                                   name="password"
-                                   id="password"
-                                   required
-                                   autocomplete="current-password"
-                                   placeholder="Enter your password"
-                                   class="w-full h-12 pl-11 pr-11 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
-                            <button type="button"
-                                    onclick="togglePassword()"
-                                    aria-label="Toggle password visibility"
-                                    class="absolute right-1.5 top-0 h-12 w-9 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
-                                <i class="hgi-stroke hgi-view text-xl leading-none" id="toggleIcon"></i>
-                            </button>
+                                <input type="password"
+                                       name="password"
+                                       id="password"
+                                       required
+                                       autocomplete="current-password"
+                                       placeholder="Enter your password"
+                                       class="w-full h-12 pl-11 pr-11 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
+                                <button type="button"
+                                        onclick="togglePassword()"
+                                        aria-label="Toggle password visibility"
+                                        class="absolute right-1.5 top-0 h-12 w-9 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors">
+                                    <i class="hgi-stroke hgi-view text-xl leading-none" id="toggleIcon"></i>
+                                </button>
+                            </div>
                         </div>
+
+                        <!-- Remember Me & Forgot Password -->
+                        <div class="flex items-center justify-between">
+                            <label class="flex items-center gap-2 cursor-pointer select-none">
+                                <input type="checkbox"
+                                       name="remember-me"
+                                       class="w-4 h-4 rounded border-gray-300 cursor-pointer"
+                                       style="accent-color: #e63946;"/>
+                                <span class="text-sm text-gray-600">Remember me</span>
+                            </label>
+                            <a href="#" class="text-sm text-[#e63946] hover:text-[#c3303b] font-medium">Forgot password?</a>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit"
+                                class="btn bg-[#e63946] hover:bg-[#c3303b] text-white border-0 w-full h-12 rounded-xl text-sm font-semibold transition-all hover:shadow-lg">
+                            <i class="hgi-stroke hgi-login-02 text-lg mr-2"></i>
+                            Sign In
+                        </button>
+
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="flex items-center gap-4 my-6">
+                        <div class="flex-1 h-px bg-gray-200"></div>
+                        <span class="text-xs text-gray-400 uppercase tracking-wider">Or continue with</span>
+                        <div class="flex-1 h-px bg-gray-200"></div>
                     </div>
 
-                    <!-- Remember Me & Forgot Password -->
-                    <div class="flex items-center justify-between">
-                        <label class="flex items-center gap-2 cursor-pointer select-none">
-                            <input type="checkbox"
-                                   name="remember-me"
-                                   class="w-4 h-4 rounded border-gray-300 cursor-pointer"
-                                   style="accent-color: #e63946;"/>
-                            <span class="text-sm text-gray-600">Remember me</span>
-                        </label>
-                        <a href="#" class="text-sm text-[#e63946] hover:text-[#c3303b] font-medium">Forgot password?</a>
+                    <!-- Social Login -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <button type="button"
+                                class="btn bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 h-11 rounded-xl text-sm font-medium">
+                            <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
+                                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                            </svg>
+                            Google
+                        </button>
+                        <button type="button"
+                                class="btn bg-gray-900 hover:bg-gray-800 border-0 text-white h-11 rounded-xl text-sm font-medium">
+                            <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                            GitHub
+                        </button>
                     </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit"
-                            class="btn bg-[#e63946] hover:bg-[#c3303b] text-white border-0 w-full h-12 rounded-xl text-sm font-semibold transition-all hover:shadow-lg">
-                        <i class="hgi-stroke hgi-login-02 text-lg mr-2"></i>
-                        Sign In
-                    </button>
-
-                </form>
-
-                <!-- Divider -->
-                <div class="flex items-center gap-4 my-6">
-                    <div class="flex-1 h-px bg-gray-200"></div>
-                    <span class="text-xs text-gray-400 uppercase tracking-wider">Or continue with</span>
-                    <div class="flex-1 h-px bg-gray-200"></div>
                 </div>
 
-                <!-- Social Login -->
-                <div class="grid grid-cols-2 gap-3">
-                    <button type="button"
-                            class="btn bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 h-11 rounded-xl text-sm font-medium">
-                        <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        Google
-                    </button>
-                    <button type="button"
-                            class="btn bg-gray-900 hover:bg-gray-800 border-0 text-white h-11 rounded-xl text-sm font-medium">
-                        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        GitHub
-                    </button>
-                </div>
+                <!-- Footer -->
+                <p class="text-center text-sm text-gray-500 mt-6">
+                    Don't have an account?
+                    <a href="#" class="text-[#e63946] hover:text-[#c3303b] font-medium">Contact Admin</a>
+                </p>
+
+                <!-- Copyright -->
+                <p class="text-center text-xs text-gray-400 mt-4">
+                    &copy; 2024 Astronity. All rights reserved.
+                </p>
 
             </div>
-
-            <!-- Footer -->
-            <p class="text-center text-sm text-gray-500 mt-6">
-                Don't have an account?
-                <a href="#" class="text-[#e63946] hover:text-[#c3303b] font-medium">Contact Admin</a>
-            </p>
-
-            <!-- Copyright -->
-            <p class="text-center text-xs text-gray-400 mt-4">
-                &copy; 2024 Astronity. All rights reserved.
-            </p>
-
         </div>
-    </div>
 
-</div>
+    </main>
 
-<script>
-    function togglePassword() {
-        const passwordInput = document.getElementById('password');
-        const toggleIcon = document.getElementById('toggleIcon');
-
-        if (passwordInput.type === 'password') {
-            passwordInput.type = 'text';
-            toggleIcon.classList.remove('hgi-view');
-            toggleIcon.classList.add('hgi-view-off-slash');
-        } else {
-            passwordInput.type = 'password';
-            toggleIcon.classList.remove('hgi-view-off-slash');
-            toggleIcon.classList.add('hgi-view');
-        }
-    }
-</script>
+    <th:block id="scripts">
+        <script defer th:src="@{/js/login.js}"></script>
+    </th:block>
 
 </body>
 </html>
