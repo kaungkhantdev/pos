@@ -116,12 +116,7 @@
                                     <button
                                             type="button"
                                             data-open="editModal"
-                                            th:attr="
-                                                data-id=${task.id},
-                                                data-task=${task.task},
-                                                data-description=${task.description},
-                                                data-status=${task.status}
-                                            "
+                                            th:attr="data-open=${'editModal-' + task.id}"
                                             class="w-8 h-8 rounded-lg text-gray-400
                                                 hover:text-[#e63946] hover:bg-[#e63946]/10
                                                 flex items-center justify-center"
@@ -133,10 +128,7 @@
                                     <button
                                             type="button"
                                             data-open="deleteModal"
-                                            th:attr="
-                                                data-id=${task.id},
-                                                data-task=${task.task}
-                                            "
+                                            th:attr="data-open=${'deleteModal-' + task.id}"
                                             class="w-8 h-8 rounded-lg text-gray-400
                                            hover:text-red-500 hover:bg-red-50
                                            flex items-center justify-center"
@@ -231,7 +223,9 @@
         </div>
 
         <!-- ===================== EDIT MODAL ===================== -->
-        <div id="editModal" class="app-modal fixed inset-0 z-50 hidden">
+        <div th:each="task : ${tasks.content}"
+            th:id="${'editModal-' + task.id}"
+            class="app-modal fixed inset-0 z-50 hidden">
 
             <div class="absolute inset-0 bg-black/40" data-close></div>
 
@@ -249,15 +243,11 @@
                         </button>
                     </div>
 
-                    <form id="editTaskForm" method="post">
+                    <form
+                            th:action="@{/tasks/{id}/edit(id=${task.id})}"
+                            method="post">
 
                         <div class="px-6 py-5 space-y-4">
-
-                            <input
-                                    type="hidden"
-                                    name="id"
-                                    data-fill="id"
-                            />
 
                             <div>
                                 <label>Task</label>
@@ -265,7 +255,7 @@
                                 <input
                                         type="text"
                                         name="task"
-                                        data-fill="task"
+                                        th:value="${task.task}"
                                         required
                                         class="w-full h-11 rounded-xl border"
                                 />
@@ -276,10 +266,10 @@
 
                                 <textarea
                                         name="description"
-                                        data-fill="description"
                                         required
                                         class="w-full rounded-xl border"
-                                ></textarea>
+                                        th:text="${task.description}">
+                        </textarea>
                             </div>
 
                             <div>
@@ -287,13 +277,27 @@
 
                                 <select
                                         name="status"
-                                        data-fill="status"
                                         class="w-full h-11 rounded-xl border">
 
-                                    <option value="DONE">Done</option>
-                                    <option value="IN_PROGRESS">In Progress</option>
-                                    <option value="DOING">Doing</option>
-                                    <option value="PLAN">Plan</option>
+                                    <option value="DONE"
+                                            th:selected="${task.status.name() == 'DONE'}">
+                                        Done
+                                    </option>
+
+                                    <option value="IN_PROGRESS"
+                                            th:selected="${task.status.name() == 'IN_PROGRESS'}">
+                                        In Progress
+                                    </option>
+
+                                    <option value="DOING"
+                                            th:selected="${task.status.name() == 'DOING'}">
+                                        Doing
+                                    </option>
+
+                                    <option value="PLAN"
+                                            th:selected="${task.status.name() == 'PLAN'}">
+                                        Plan
+                                    </option>
 
                                 </select>
                             </div>
@@ -302,13 +306,15 @@
 
                         <div class="flex justify-end gap-3 p-5 border-t">
 
-                            <button type="button"
+                            <button
+                                    type="button"
                                     data-close
                                     class="px-4 h-11 rounded-xl border">
                                 Cancel
                             </button>
 
-                            <button type="submit"
+                            <button
+                                    type="submit"
                                     class="px-5 h-11 rounded-xl bg-[#e63946] text-white">
                                 Save Changes
                             </button>
@@ -320,7 +326,6 @@
                 </div>
             </div>
         </div>
-
         <!-- ===================== SHOW MODAL ===================== -->
         <div id="showModal" class="app-modal fixed inset-0 z-50 hidden">
 
@@ -370,7 +375,10 @@
         </div>
 
         <!-- ===================== DELETE MODAL ===================== -->
-        <div id="deleteModal" class="app-modal fixed inset-0 z-50 hidden">
+        <div
+                th:each="task : ${tasks.content}"
+                th:id="${'deleteModal-' + task.id}"
+                class="app-modal fixed inset-0 z-50 hidden">
 
             <div class="absolute inset-0 bg-black/40" data-close></div>
 
@@ -378,28 +386,47 @@
 
                 <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6">
 
-                    <h3 class="text-lg font-bold">
-                        Delete Task
-                    </h3>
+                    <div class="text-center">
 
-                    <p class="text-sm text-gray-500 mt-2">
-                        Are you sure you want to delete
-                        <span data-fill="task"
-                              class="font-semibold text-gray-700">
-                </span>?
-                    </p>
+                        <div class="w-14 h-14 rounded-full bg-red-50 text-red-500
+                            flex items-center justify-center mx-auto mb-4">
+                            <i class="hgi-stroke hgi-alert-02 text-2xl"></i>
+                        </div>
 
-                    <form id="deleteTaskForm" method="post"
-                          class="flex justify-end gap-3 mt-6">
+                        <h3 class="text-lg font-bold text-gray-900">
+                            Delete Task
+                        </h3>
 
-                        <button type="button"
+                        <p class="text-sm text-gray-500 mt-2">
+                            Are you sure you want to delete
+                            <span
+                                    class="font-semibold text-gray-700"
+                                    th:text="${task.task}">
+                        Task
+                    </span>?
+                        </p>
+
+                    </div>
+
+                    <form
+                            th:action="@{/tasks/{id}/delete(id=${task.id})}"
+                            method="post"
+                            class="flex gap-3 mt-6">
+
+                        <button
+                                type="button"
                                 data-close
-                                class="px-4 h-10 rounded-xl border">
+                                class="flex-1 h-11 rounded-xl
+                               border border-gray-200
+                               text-gray-700">
                             Cancel
                         </button>
 
-                        <button type="submit"
-                                class="px-4 h-10 rounded-xl bg-red-500 text-white">
+                        <button
+                                type="submit"
+                                class="flex-1 h-11 rounded-xl
+                               bg-red-500 hover:bg-red-600
+                               text-white font-semibold">
                             Delete
                         </button>
 

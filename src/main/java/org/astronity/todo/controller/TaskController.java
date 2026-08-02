@@ -80,7 +80,7 @@ public class TaskController {
             return "pages/task/index";
         }
         log.info("Saving task {}", dto);
-        taskService.updateTask(id, dto);
+        taskService.deleteTaskById(id);
 
         return "redirect:/tasks";
     }

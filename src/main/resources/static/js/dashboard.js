@@ -67,53 +67,5 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-
-    document.querySelectorAll('[data-open]').forEach(button => {
-
-        button.addEventListener('click', () => {
-
-            const modalId = button.dataset.open;
-            const modal = document.getElementById(modalId);
-
-            if (!modal) return;
-
-            modal.querySelectorAll('[data-fill]').forEach(element => {
-
-                const field = element.dataset.fill;
-                const value = button.dataset[field] ?? '';
-
-                if (element.tagName === 'INPUT' ||
-                    element.tagName === 'TEXTAREA' ||
-                    element.tagName === 'SELECT') {
-
-                    element.value = value;
-
-                } else {
-
-                    element.textContent = value;
-
-                }
-            });
-
-            // Edit URL
-            if (modalId === 'editModal') {
-                const id = button.dataset.id;
-
-                document.getElementById('editTaskForm').action =
-                    `/tasks/${id}/edit`;
-            }
-
-            // Delete URL
-            if (modalId === 'deleteModal') {
-                const id = button.dataset.id;
-
-                document.getElementById('deleteTaskForm').action =
-                    `/tasks/${id}/delete`;
-            }
-
-            modal.classList.remove('hidden');
-        });
-    });
-
 });
 
