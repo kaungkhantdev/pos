@@ -10,12 +10,14 @@ public class TaskSpecification {
 
     public static Specification<Task> search(String search) {
         return (root, query, criteriaBuilder) -> {
-            if (search == null || search.isEmpty())
+
+            if (search == null || search.isBlank()) {
                 return null;
+            }
 
-            String keyword = "%" + search + "%";
+            String keyword = "%" + search.toLowerCase() + "%";
 
-            return  criteriaBuilder.or(
+            return criteriaBuilder.or(
                     criteriaBuilder.like(
                             criteriaBuilder.lower(root.get("task")),
                             keyword
@@ -25,7 +27,6 @@ public class TaskSpecification {
                             keyword
                     )
             );
-
         };
     }
 

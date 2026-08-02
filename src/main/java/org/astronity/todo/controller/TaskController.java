@@ -25,20 +25,20 @@ public class TaskController {
 
     @GetMapping
     public String index(
-            @RequestParam(required = false) String keyboard,
+            @RequestParam(required = false) String keyword,
             @RequestParam(required = false) TaskStatus status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             Model model
             ) {
         Page<Task> tasks = taskService.getAllTasks(
-                keyboard,
+                keyword,
                 status,
                 PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "id"))
         );
         log.info("Tasks found: {}", tasks.getTotalElements());
         model.addAttribute("tasks", tasks);
-        model.addAttribute("keyboard", keyboard);
+        model.addAttribute("keyword", keyword);
         model.addAttribute("status", status);
         return "pages/task/index";
     }
