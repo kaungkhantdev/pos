@@ -33,7 +33,7 @@ public class SecurityConfig {
                     .loginPage("/login")
                     .loginProcessingUrl("/login")
                     .usernameParameter("email")
-                    .defaultSuccessUrl("/", true)
+                    .defaultSuccessUrl("/tasks", true)
                     .permitAll()
             )
             .logout(logout -> logout

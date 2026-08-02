@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layouts/default :: layout(~{:: #content}, ~{:: #scripts}, ~{:: #links} ?: ~{})}">
+
+<body>
+<main id="content" class="flex-1 overflow-y-auto">
+    <div class="p-6 max-w-[1600px] mx-auto">
+
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">Tasks</h1>
+                <p class="text-sm text-gray-500 mt-1">Manage tasks.</p>
+            </div>
+            <div class="flex gap-2 items-center">
+                <button type="button" data-open="createModal"
+                        class="inline-flex items-center gap-2 bg-[#e63946] hover:bg-[#c3303b] text-white text-sm font-semibold px-4 h-11 rounded-xl transition-colors">
+                    <i class="hgi-stroke hgi-add-01 text-lg"></i> Add Task
+                </button>
+                <a href="#" class="sb-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit()">
+                    <span class="sb-dash"></span>
+                    <span class="sb-icon"><i class="hgi-stroke hgi-logout-02 text-[22px] leading-none"></i></span>
+                    <span class="sb-label">Logout</span>
+                </a>
+                <form id="logout-form" th:action="@{/logout}" method="post" class="hidden"></form>
+            </div>
+
+        </div>
+
+        <div class="bg-white rounded-3xl border border-gray-100 overflow-hidden">
+
+            <form th:action="@{/tasks}" method="get" class="flex items-center gap-3 p-4 border-b border-gray-100">
+                <div class="relative w-full max-w-xs">
+                    <i class="hgi-stroke hgi-search-01 absolute left-4 top-4/5 -translate-y-1/2 text-gray-400"></i>
+                    <input type="text" placeholder="Search"
+                           name="keyword"
+                           th:value="${keyword}"
+                           class="w-full h-10 pl-10 pr-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm"/>
+                </div>
+                <select
+                        name="status"
+                        class="h-10 px-3 rounded-xl bg-gray-50 border border-gray-200
+                       focus:outline-none focus:border-[#f06a76]
+                       focus:bg-white text-sm text-gray-600">
+
+                    <option value="">All Status</option>
+
+                    <option value="Done"
+                            th:selected="${status != null and status.name() == 'Done'}">
+                        Done
+                    </option>
+
+                    <option value="InProgress"
+                            th:selected="${status != null and status.name() == 'InProgress'}">
+                        In Progress
+                    </option>
+
+                    <option value="Doing"
+                            th:selected="${status != null and status.name() == 'Doing'}">
+                        Doing
+                    </option>
+
+                    <option value="Plan"
+                            th:selected="${status != null and status.name() == 'Plan'}">
+                        Plan
+                    </option>
+                </select>
+
+                <button type="submit"
+                        class="h-10 px-4 rounded-xl bg-[#e63946] text-white text-sm font-semibold">
+                    Search
+                </button>
+            </form>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead>
+                    <tr class="text-[11px] text-gray-400 uppercase tracking-wider border-b border-gray-100">
+                        <th class="text-left font-medium px-5 py-3">Task</th>
+                        <th class="text-left font-medium px-5 py-3">Description</th>
+                        <th class="text-left font-medium px-5 py-3">Status</th>
+                        <th class="text-right font-medium px-5 py-3">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+
+                        <tr th:each="task : ${tasks.content}" class="hover:bg-gray-50">
+                            <td class="px-5 py-4">
+                                <div class="flex items-center gap-3">
+                                    <span class="w-10 h-10 rounded-full bg-[#e63946]/10 text-[#e63946] font-bold text-sm flex items-center justify-center shrink-0">AD</span>
+                                    <p class="font-semibold text-gray-900" th:text="${task.task}">Task name</p>
+                                </div>
+                            </td>
+                            <td class="px-5 py-4 text-gray-600" th:text="${task.description}">Description</td>
+                            <td class="px-5 py-4"><span class="bg-green-50 text-green-600 text-xs font-medium px-2.5 py-1 rounded-full" th:text="${task.status}">Status</span></td>
+                            <td class="px-5 py-4">
+                                <div class="flex items-center justify-end gap-1">
+                                    <button data-open="resetModal" data-name="Admin User" class="w-8 h-8 rounded-lg text-gray-400 hover:text-blue-500 hover:bg-blue-50 flex items-center justify-center" title="Reset password"><i class="hgi-stroke hgi-key-01 text-base"></i></button>
+                                    <button data-open="editModal" data-name="Admin User" data-email="admin@astronity.co" data-role="Admin" class="w-8 h-8 rounded-lg text-gray-400 hover:text-[#e63946] hover:bg-[#e63946]/10 flex items-center justify-center"><i class="hgi-stroke hgi-pencil-edit-02 text-base"></i></button>
+                                    <button data-open="deleteModal" data-name="Admin User" class="w-8 h-8 rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 flex items-center justify-center"><i class="hgi-stroke hgi-delete-02 text-base"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="flex items-center justify-between px-5 py-3 border-t border-gray-100 text-sm text-gray-500">
+                <span th:text="'Showing ' + ${tasks.numberOfElements}
+                                 + ' of ' + ${tasks.totalElements} + ' tasks'">
+                    Showing 0 of 0 tasks
+                </span>
+                <div class="flex items-center gap-1">
+                    <a  th:if="${tasks.hasPrevious()}"
+                        th:href="@{/tasks(
+                            page=${tasks.number - 1},
+                            size=${tasks.size},
+                            keyword=${keyword},
+                            status=${status}
+                        )}"
+                        class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-50"><i class="hgi-stroke hgi-arrow-left-01"></i></a>
+                    <!-- Current page -->
+                    <span class="w-8 h-8 rounded-lg bg-[#e63946] text-white flex items-center justify-center text-xs font-semibold"
+                            th:text="${tasks.number + 1}">
+                        1
+                    </span>
+
+                    <!-- Next -->
+                    <a th:if="${tasks.hasNext()}"
+                       th:href="@{/tasks(
+                            page=${tasks.number + 1},
+                            size=${tasks.size},
+                            keyword=${keyword},
+                            status=${status}
+                        )}"
+                       class="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-gray-50">
+                        <i class="hgi-stroke hgi-arrow-right-01"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== CREATE MODAL ===================== -->
+        <div id="createModal" class="app-modal fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black/40" data-close></div>
+            <div class="relative z-10 min-h-full flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-md">
+                    <div class="flex items-center justify-between p-5 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-[#e63946]/10 text-[#e63946] flex items-center justify-center"><i class="hgi-stroke hgi-add-01 text-lg"></i></span>
+                            <h3 class="text-lg font-bold text-gray-900">Add Task</h3>
+                        </div>
+                        <button type="button" data-close class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400"><i class="hgi-stroke hgi-cancel-01"></i></button>
+                    </div>
+                    <form th:action="@{/tasks}" method="post">
+                        <div class="px-6 py-5 space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Task</label>
+                                <input type="text" name="task" required class="w-full h-11 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
+                                <textarea
+                                        name="description"
+                                        required
+                                        class="w-full h-11 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
+                                <select name="status" class="w-full h-11 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors">
+                                    <option>Done</option><option>InProgress</option><option>Doing</option><option>Plan</option>
+                                </select>
+                            </div>
+
+                        </div>
+                        <div class="flex justify-end gap-3 p-5 border-t border-gray-100">
+                            <button type="button" data-close class="px-4 h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-5 h-11 rounded-xl bg-[#e63946] hover:bg-[#c3303b] text-white text-sm font-semibold transition-colors">Create Task</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== EDIT MODAL ===================== -->
+        <div id="editModal" class="app-modal fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black/40" data-close></div>
+            <div class="relative z-10 min-h-full flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-md">
+                    <div class="flex items-center justify-between p-5 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-[#e63946]/10 text-[#e63946] flex items-center justify-center"><i class="hgi-stroke hgi-pencil-edit-02 text-lg"></i></span>
+                            <h3 class="text-lg font-bold text-gray-900">Edit Staff</h3>
+                        </div>
+                        <button type="button" data-close class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400"><i class="hgi-stroke hgi-cancel-01"></i></button>
+                    </div>
+                    <form action="/users/update" method="post">
+                        <div class="px-6 py-5 space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                                <input type="text" name="name" data-fill="name" required class="w-full h-11 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                                <input type="email" name="email" data-fill="email" required class="w-full h-11 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Role</label>
+                                <select name="role" data-fill="role" class="w-full h-11 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors">
+                                    <option>Manager</option><option>Cashier</option><option>Waiter</option><option>Kitchen</option><option>Admin</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Permissions</label>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    <label class="flex items-center gap-2.5 rounded-xl border border-gray-200 px-3 h-11 cursor-pointer hover:bg-gray-50"><input type="checkbox" name="perm" value="pos" checked class="w-4 h-4 accent-[#e63946]"/><span class="text-sm text-gray-700">Take orders (POS)</span></label>
+                                    <label class="flex items-center gap-2.5 rounded-xl border border-gray-200 px-3 h-11 cursor-pointer hover:bg-gray-50"><input type="checkbox" name="perm" value="kitchen" class="w-4 h-4 accent-[#e63946]"/><span class="text-sm text-gray-700">Kitchen display</span></label>
+                                    <label class="flex items-center gap-2.5 rounded-xl border border-gray-200 px-3 h-11 cursor-pointer hover:bg-gray-50"><input type="checkbox" name="perm" value="discount" checked class="w-4 h-4 accent-[#e63946]"/><span class="text-sm text-gray-700">Apply discounts</span></label>
+                                    <label class="flex items-center gap-2.5 rounded-xl border border-gray-200 px-3 h-11 cursor-pointer hover:bg-gray-50"><input type="checkbox" name="perm" value="void" class="w-4 h-4 accent-[#e63946]"/><span class="text-sm text-gray-700">Void / refund</span></label>
+                                    <label class="flex items-center gap-2.5 rounded-xl border border-gray-200 px-3 h-11 cursor-pointer hover:bg-gray-50"><input type="checkbox" name="perm" value="menu" class="w-4 h-4 accent-[#e63946]"/><span class="text-sm text-gray-700">Manage menu</span></label>
+                                    <label class="flex items-center gap-2.5 rounded-xl border border-gray-200 px-3 h-11 cursor-pointer hover:bg-gray-50"><input type="checkbox" name="perm" value="reports" checked class="w-4 h-4 accent-[#e63946]"/><span class="text-sm text-gray-700">View reports</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 p-5 border-t border-gray-100">
+                            <button type="button" data-close class="px-4 h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-5 h-11 rounded-xl bg-[#e63946] hover:bg-[#c3303b] text-white text-sm font-semibold transition-colors">Save Changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== RESET PASSWORD MODAL ===================== -->
+        <div id="resetModal" class="app-modal fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black/40" data-close></div>
+            <div class="relative z-10 min-h-full flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm">
+                    <div class="flex items-center justify-between p-5 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <span class="w-10 h-10 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center"><i class="hgi-stroke hgi-key-01 text-lg"></i></span>
+                            <h3 class="text-lg font-bold text-gray-900">Reset Password</h3>
+                        </div>
+                        <button type="button" data-close class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center text-gray-400"><i class="hgi-stroke hgi-cancel-01"></i></button>
+                    </div>
+                    <form action="/users/reset-password" method="post">
+                        <div class="px-6 py-5 space-y-4">
+                            <p class="text-sm text-gray-500">Set a new password for <span data-fill="name" class="font-semibold text-gray-700">this user</span>.</p>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">New Password</label>
+                                <input type="password" name="password" required placeholder="••••••••" class="w-full h-11 px-4 rounded-xl bg-gray-50 border border-gray-200 focus:outline-none focus:border-[#f06a76] focus:bg-white text-sm transition-colors"/>
+                            </div>
+                        </div>
+                        <div class="flex justify-end gap-3 p-5 border-t border-gray-100">
+                            <button type="button" data-close class="px-4 h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50">Cancel</button>
+                            <button type="submit" class="px-5 h-11 rounded-xl bg-[#e63946] hover:bg-[#c3303b] text-white text-sm font-semibold transition-colors">Reset</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===================== DELETE MODAL ===================== -->
+        <div id="deleteModal" class="app-modal fixed inset-0 z-50 hidden">
+            <div class="absolute inset-0 bg-black/40" data-close></div>
+            <div class="relative z-10 min-h-full flex items-center justify-center p-4">
+                <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm p-6 text-center">
+                    <div class="w-14 h-14 rounded-full bg-red-50 text-red-500 flex items-center justify-center mx-auto mb-4"><i class="hgi-stroke hgi-alert-02 text-2xl"></i></div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-1">Delete Staff</h3>
+                    <p class="text-sm text-gray-500 mb-6">Are you sure you want to delete <span data-fill="name" class="font-semibold text-gray-700">this user</span>? This action cannot be undone.</p>
+                    <form action="/users/delete" method="post" class="flex gap-3">
+                        <button type="button" data-close class="flex-1 h-11 rounded-xl border border-gray-200 text-gray-700 text-sm font-medium hover:bg-gray-50">Cancel</button>
+                        <button type="submit" class="flex-1 h-11 rounded-xl bg-red-500 hover:bg-red-600 text-white text-sm font-semibold transition-colors">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+
+<th:block id="scripts">
+    <script defer th:src="@{/js/dashboard.js}"></script>
+</th:block>
+<th:block id="links"></th:block>
+</body>
+</html>

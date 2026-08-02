@@ -4,9 +4,6 @@
     <body class="h-screen bg-gray-50 overflow-hidden">
 
         <div class="flex h-screen overflow-hidden">
-            <!-- Sidebar -->
-            <aside th:replace="~{fragments/sidebar :: sidebar}"></aside>
-
             <!-- Page Content -->
             <th:block th:replace="${content}"></th:block>
         </div>
