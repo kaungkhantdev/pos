@@ -54,4 +54,34 @@ public class TaskController {
 
         return "redirect:/tasks";
     }
+
+    @PostMapping("{id}/edit")
+    public String edit(
+            @PathVariable Long id,
+            @Valid @ModelAttribute CreateTaskDto dto,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "pages/task/index";
+        }
+        log.info("Saving task {}", dto);
+        taskService.updateTask(id, dto);
+
+        return "redirect:/tasks";
+    }
+
+    @PostMapping("{id}/delete")
+    public String delete(
+            @PathVariable Long id,
+            @Valid @ModelAttribute CreateTaskDto dto,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return "pages/task/index";
+        }
+        log.info("Saving task {}", dto);
+        taskService.updateTask(id, dto);
+
+        return "redirect:/tasks";
+    }
 }

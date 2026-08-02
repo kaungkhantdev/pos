@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class TaskServiceImpl implements TaskService {
     private TaskRepository taskRepository;
@@ -24,6 +26,7 @@ public class TaskServiceImpl implements TaskService {
         newTask.setTask(createTaskDto.getTask());
         newTask.setDescription(createTaskDto.getDescription());
         newTask.setStatus(createTaskDto.getStatus());
+        newTask.setCreatedAt(LocalDateTime.now());
         return taskRepository.save(newTask);
     }
 
